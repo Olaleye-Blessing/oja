@@ -25,4 +25,8 @@ defmodule API.Dbs.User do
         end
     end
   end
+
+  def update_refresh_token(user, token) do
+    user |> Schema.refresh_token_changeset(token) |> Repo.update()
+  end
 end

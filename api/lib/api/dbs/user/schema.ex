@@ -9,6 +9,7 @@ defmodule API.Dbs.User.Schema do
     field(:email, :string)
     field(:password, :string, redact: true)
     # field(:password, :string)
+    field(:refresh_token, :string)
 
     timestamps()
   end
@@ -21,6 +22,11 @@ defmodule API.Dbs.User.Schema do
     |> validate_password()
     |> validate_username()
     |> hash_password()
+  end
+
+  def refresh_token_changeset(user, token) do
+    user
+    |> change(refresh_token: token)
   end
 
   defp validate_email(changeset) do
