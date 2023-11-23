@@ -29,4 +29,37 @@ defmodule API.Routers.Auth do
         )
     end
   end
+
+  post "login" do
+    %{body_params: body_params} = conn
+
+    params = %{
+      email: Map.get(body_params, "email"),
+      password: Map.get(body_params, "password")
+    }
+
+    if invalid_login_params?(params) do
+      Router.json_resp(
+        conn,
+        %{error: "Please, provide email and password!"},
+        400
+      )
+    else
+      case User.login(params) do
+        {:ok, user} ->
+          Router.json_resp(conn, %{user: Utils.schema_to_map(user, [:password])})
+
+        {:error, msg} ->
+          Router.json_resp(
+            conn,
+            %{error: msg},
+            401
+          )
+      end
+    end
+  end
+
+  defp invalid_login_params?(%{email: email, password: password}) do
+    email == nil || password == nil || email == "" || password == ""
+  end
 end
