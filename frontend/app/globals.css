@@ -57,3 +57,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .cardboard {
+    @apply rounded-md border bg-white transition duration-200 ease-linear shadow-md hover:shadow-sm;
+  }
+
+  .cardboard--outline {
+    @apply shadow-sm border-border;
+  }
+}
