@@ -1,8 +1,8 @@
 defmodule Api.Controllers.Auth do
   @moduledoc false
 
-  alias API.Router
-  alias API.Dbs.User
+  alias Api.Router
+  alias Api.Dbs.User
   alias Api.Utils
 
   def signup(conn) do

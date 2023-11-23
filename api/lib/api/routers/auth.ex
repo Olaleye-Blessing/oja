@@ -1,4 +1,4 @@
-defmodule API.Routers.Auth do
+defmodule Api.Routers.Auth do
   use Plug.Router
 
   alias Api.Controllers.Auth, as: AuthController

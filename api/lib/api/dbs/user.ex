@@ -1,7 +1,7 @@
-defmodule API.Dbs.User do
+defmodule Api.Dbs.User do
   @moduledoc false
 
-  alias API.Dbs.User.Schema
+  alias Api.Dbs.User.Schema
   alias Api.Repo
 
   def register(attrs) do

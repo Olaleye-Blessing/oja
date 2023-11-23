@@ -1,7 +1,7 @@
-defmodule API.Router do
+defmodule Api.Router do
   use Plug.Router
 
-  alias API.Routers.{Auth}
+  alias Api.Routers.{Auth}
 
   plug(CORSPlug, origin: "*")
   # see incoming requests in the shell while testing

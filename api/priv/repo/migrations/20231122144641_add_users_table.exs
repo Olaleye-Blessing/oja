@@ -1,4 +1,4 @@
-defmodule API.Repo.Migrations.AddUsersTable do
+defmodule Api.Repo.Migrations.AddUsersTable do
   use Ecto.Migration
 
   def change do
