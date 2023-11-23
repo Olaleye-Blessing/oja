@@ -21,7 +21,7 @@ defmodule Api.Router do
   plug(:dispatch)
 
   get "/api" do
-    json_resp(conn, %{message: "Welcome to the API"})
+    json_resp(:ok, conn, %{message: "Welcome to the API"})
   end
 
   forward("/api/auth", to: Auth)
@@ -33,8 +33,15 @@ defmodule Api.Router do
   @doc """
   Set the response type of a route to application/json.
   """
-  @spec json_resp(any(), any(), integer()) :: any()
-  def json_resp(conn, body, status \\ 200) do
+  def json_resp(type, conn, body, status \\ 400)
+
+  def json_resp(:error, conn, body, status) do
+    conn
+    |> put_resp_header("content-type", "application/json")
+    |> send_resp(status, Jason.encode!(%{status: status, message: body}))
+  end
+
+  def json_resp(:ok, conn, body, status) do
     conn
     |> put_resp_header("content-type", "application/json")
     |> send_resp(status, Jason.encode!(body))

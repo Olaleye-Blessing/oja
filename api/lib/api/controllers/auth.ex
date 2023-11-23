@@ -20,8 +20,9 @@ defmodule Api.Controllers.Auth do
 
       {:error, changeset} ->
         Router.json_resp(
+          :error,
           conn,
-          %{error: Utils.changeset_error_to_map(changeset)},
+          Utils.changeset_error_to_map(changeset),
           400
         )
     end
@@ -40,7 +41,7 @@ defmodule Api.Controllers.Auth do
       authenticate_user(conn, user)
     else
       {:error, msg} ->
-        Router.json_resp(conn, %{error: msg}, 401)
+        Router.json_resp(:error, conn, msg, 401)
     end
   end
 
@@ -62,7 +63,7 @@ defmodule Api.Controllers.Auth do
       access_token = generate_token(user)
       refresh_token = new_user.refresh_token
 
-      Router.json_resp(conn, %{
+      Router.json_resp(:ok, conn, %{
         user: Utils.schema_to_map(new_user, [:password, :refresh_token]),
         tokens: %{
           access_token: access_token,
@@ -72,13 +73,14 @@ defmodule Api.Controllers.Auth do
     else
       {:error, changeset} ->
         Router.json_resp(
+          :error,
           conn,
-          %{error: Utils.changeset_error_to_map(changeset)},
+          %{message: Utils.changeset_error_to_map(changeset)},
           400
         )
 
       _ ->
-        Router.json_resp(conn, %{error: "Service unavailable! Please try again later"}, 500)
+        Router.json_resp(:error, conn, "Service unavailable! Please try again later", 500)
     end
   end
 end
