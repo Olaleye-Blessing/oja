@@ -1,6 +1,9 @@
 defmodule API.Router do
   use Plug.Router
 
+  alias API.Routers.{Auth}
+
+  plug(CORSPlug, origin: "*")
   # see incoming requests in the shell while testing
   plug(Plug.Logger)
 
@@ -17,14 +20,19 @@ defmodule API.Router do
   # dispatch the connection the handlers
   plug(:dispatch)
 
-  get "/" do
-    conn |> json_resp(%{message: "Home page"})
+  get "/api" do
+    json_resp(conn, %{message: "Welcome to the API"})
   end
+
+  forward("/api/auth", to: Auth)
 
   match _ do
     send_resp(conn, 404, "Resource not found")
   end
 
+  @doc """
+  Set the response type of a route to application/json.
+  """
   @spec json_resp(any(), any(), integer()) :: any()
   def json_resp(conn, body, status \\ 200) do
     conn
