@@ -31,4 +31,18 @@ defmodule Api.Utils do
     |> Map.from_struct()
     |> Map.drop([:__meta__ | keys])
   end
+
+  @doc """
+  Extracts the specified fields from the body parameters.
+
+  ## Examples
+  iex> extract_fields([:name, :description], %{name: "test", description: "test", price: 100})
+  %{name: "test", description: "test"}
+  """
+  @spec extract_fields(list(), map()) :: map()
+  def extract_fields(fields, body_params) do
+    Enum.into(fields, %{}, fn field ->
+      {field, Map.get(body_params, to_string(field))}
+    end)
+  end
 end

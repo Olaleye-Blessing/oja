@@ -8,8 +8,9 @@ defmodule Api.Dbs.Schema.User do
     field(:username, :string)
     field(:email, :string)
     field(:password, :string, redact: true)
-    # field(:password, :string)
     field(:refresh_token, :string)
+
+    has_many(:products, Api.Dbs.Schemas.Product)
 
     timestamps()
   end
