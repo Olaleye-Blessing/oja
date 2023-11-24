@@ -1,11 +1,15 @@
 defmodule Api.Router do
   use Plug.Router
 
+  import Api.Plugs.Authentication
+
   alias Api.Routers.{Auth}
 
   plug(CORSPlug, origin: "*")
   # see incoming requests in the shell while testing
   plug(Plug.Logger)
+
+  plug(:get_current_user)
 
   # tells plug to match incoming request to our endpoints
   plug(:match)
@@ -19,10 +23,6 @@ defmodule Api.Router do
 
   # dispatch the connection the handlers
   plug(:dispatch)
-
-  get "/api" do
-    json_resp(:ok, conn, %{message: "Welcome to the API"}, 200)
-  end
 
   forward("/api/auth", to: Auth)
 
