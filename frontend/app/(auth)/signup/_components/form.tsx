@@ -26,7 +26,7 @@ const Form = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useZodForm({
     schema: SignUpSchema,
     mode: "onSubmit",
@@ -88,7 +88,12 @@ const Form = () => {
       />
 
       <div className=" flex items-center justify-center">
-        <Button type="submit" aria-disabled={isValid} className="w-full mt-6">
+        <Button
+          type="submit"
+          aria-disabled={!isValid}
+          loading={isSubmitting}
+          className="w-full mt-6"
+        >
           Sign up
         </Button>
       </div>

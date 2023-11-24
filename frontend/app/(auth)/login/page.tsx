@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Link from "next/link";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import HomeLogo from "@/components/home-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 const Login = () => {
   const login = useAuthStore((store) => store.login);
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const Login = () => {
     const password = data.get("password");
 
     try {
+      setIsSubmitting(true);
       toast.loading("Logging in...", { id: "login" });
       const { data } = await axios.post(`${API_URL}/auth/login`, {
         email,
@@ -36,6 +38,8 @@ const Login = () => {
       router.replace("/");
     } catch (error) {
       toast.error(getError(error), { id: "login" });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -81,7 +85,12 @@ const Login = () => {
         </div>
 
         <div className=" flex items-center justify-center">
-          <Button type="submit" className="w-full mt-6">
+          <Button
+            type="submit"
+            className="w-full mt-6"
+            aria-disabled={isSubmitting}
+            loading={isSubmitting}
+          >
             Log in
           </Button>
         </div>
