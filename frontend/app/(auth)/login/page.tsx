@@ -20,6 +20,8 @@ const Login = () => {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    
     const data = new FormData(e.currentTarget);
     const email = data.get("email");
     const password = data.get("password");

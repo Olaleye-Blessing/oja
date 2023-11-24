@@ -38,6 +38,8 @@ const Form = () => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
+    if (isSubmitting) return;
+    
     try {
       const { data: result } = await axios.post<{
         user: UserType;
