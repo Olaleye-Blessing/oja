@@ -1,4 +1,4 @@
-defmodule Api.Dbs.User.Schema do
+defmodule Api.Dbs.Schema.User do
   @moduledoc false
   use Ecto.Schema
 

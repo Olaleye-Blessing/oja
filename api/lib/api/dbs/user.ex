@@ -1,19 +1,19 @@
 defmodule Api.Dbs.User do
   @moduledoc false
 
-  alias Api.Dbs.User.Schema
+  alias Api.Dbs.Schema.User, as: UserSchema
   alias Api.Repo
 
   def register(attrs) do
-    %Schema{}
-    |> Schema.changeset(attrs)
+    %UserSchema{}
+    |> UserSchema.changeset(attrs)
     |> Repo.insert()
   end
 
   def login(%{email: email, password: password}) do
     invalid_msg = {:error, "Incorrect email or password"}
 
-    case Repo.get_by(Schema, %{email: email}) do
+    case Repo.get_by(UserSchema, %{email: email}) do
       nil ->
         invalid_msg
 
@@ -27,6 +27,6 @@ defmodule Api.Dbs.User do
   end
 
   def update_refresh_token(user, token) do
-    user |> Schema.refresh_token_changeset(token) |> Repo.update()
+    user |> UserSchema.refresh_token_changeset(token) |> Repo.update()
   end
 end
