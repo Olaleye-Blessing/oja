@@ -63,13 +63,18 @@ defmodule Api.Controllers.Auth do
       access_token = generate_token(user)
       refresh_token = new_user.refresh_token
 
-      Router.json_resp(:ok, conn, %{
-        user: Utils.schema_to_map(new_user, [:password, :refresh_token]),
-        tokens: %{
-          access_token: access_token,
-          refresh_token: refresh_token
-        }
-      })
+      Router.json_resp(
+        :ok,
+        conn,
+        %{
+          user: Utils.schema_to_map(new_user, [:password, :refresh_token]),
+          tokens: %{
+            access_token: access_token,
+            refresh_token: refresh_token
+          }
+        },
+        200
+      )
     else
       {:error, changeset} ->
         Router.json_resp(
