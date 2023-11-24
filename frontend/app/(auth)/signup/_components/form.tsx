@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ interface IFormData {
 
 const Form = () => {
   const login = useAuthStore((store) => store.login);
+  const router = useRouter();
 
   const {
     register,
@@ -47,7 +48,7 @@ const Form = () => {
 
       login(result.user, result.tokens);
 
-      redirect("/");
+      router.replace("/");
     } catch (error) {
       let messages = getError(error);
 

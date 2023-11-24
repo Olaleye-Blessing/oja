@@ -11,9 +11,11 @@ import { API_URL } from "@/utils/constant";
 import { getError } from "@/utils/get-error";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/useAuth";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const login = useAuthStore((store) => store.login);
+  const router = useRouter();
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,6 +32,8 @@ const Login = () => {
 
       toast.success("Logged in successfully", { id: "login" });
       login(data.user, data.tokens);
+
+      router.replace("/");
     } catch (error) {
       toast.error(getError(error), { id: "login" });
     }
@@ -78,7 +82,7 @@ const Login = () => {
 
         <div className=" flex items-center justify-center">
           <Button type="submit" className="w-full mt-6">
-            Sign up
+            Log in
           </Button>
         </div>
 
