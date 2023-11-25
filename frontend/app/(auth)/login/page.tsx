@@ -11,17 +11,18 @@ import { API_URL } from "@/utils/constant";
 import { getError } from "@/utils/get-error";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/useAuth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Login = () => {
   const login = useAuthStore((store) => store.login);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
-    
+
     const data = new FormData(e.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
@@ -37,7 +38,11 @@ const Login = () => {
       toast.success("Logged in successfully", { id: "login" });
       login(data.user, data.tokens);
 
-      router.replace("/");
+      const redirectUrl = decodeURIComponent(
+        searchParams?.get("redirect") || "/",
+      );
+
+      router.replace(redirectUrl);
     } catch (error) {
       toast.error(getError(error), { id: "login" });
     } finally {
