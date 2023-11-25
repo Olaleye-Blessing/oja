@@ -11,6 +11,10 @@ defmodule Api.Routers.Product do
   plug(:match)
   plug(:dispatch)
 
+  get "/" do
+    ProductController.get_all(conn)
+  end
+
   post "/" do
     ProductController.create(conn)
   end

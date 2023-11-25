@@ -10,4 +10,13 @@ defmodule Api.Dbs.Product do
     |> ProductSchema.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Get all products
+  """
+  def all() do
+    # Repo.all(ProductSchema)
+    ProductSchema
+    |> Repo.all()
+  end
 end

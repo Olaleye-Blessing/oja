@@ -7,6 +7,27 @@ defmodule Api.Controllers.Product do
 
   alias Api.Dbs.Schemas.Product, as: ProductSchema
 
+  def get_all(conn) do
+    # products =
+    #   ProductDB.all()
+    #   |> Enum.map(fn product ->
+    #     user = Utils.schema_to_map(product.user, [:password, :refresh_token, :products])
+    #     new_product = Utils.schema_to_map(product, [:user])
+
+    #     Map.put(new_product, :user, user)
+    #   end)
+
+    products =
+      ProductDB.all()
+      |> Enum.map(fn product ->
+        Utils.schema_to_map(product, [:user, :user_id])
+      end)
+
+    IO.inspect(products)
+
+    Router.json_resp(:ok, conn, products, 200)
+  end
+
   def create(%{body_params: body_params, assigns: assigns} = conn) do
     params = Utils.extract_fields(ProductSchema.fields(), body_params)
 
