@@ -67,7 +67,7 @@ defmodule Api.Controllers.Auth do
         :ok,
         conn,
         %{
-          user: Utils.schema_to_map(new_user, [:password, :refresh_token]),
+          user: Utils.schema_to_map(new_user, [:password, :refresh_token, :products]),
           tokens: %{
             access_token: access_token,
             refresh_token: refresh_token
