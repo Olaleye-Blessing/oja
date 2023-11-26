@@ -19,6 +19,7 @@ defmodule Api.Dbs.Items do
   def list_products() do
     Products
     |> Repo.all()
+    |> Repo.preload([:category])
   end
 
   @doc """
