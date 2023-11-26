@@ -13,6 +13,14 @@ import { API_URL } from "@/utils/constant";
 import { getError } from "@/utils/get-error";
 import { fields } from "./_utils/fields";
 import Categories from "@/components/categories";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Page = () => {
   const { ojaInstance } = useOjaDB();
@@ -64,7 +72,7 @@ const Page = () => {
     <Protected>
       <div className="px-4">
         <header>
-          <h1 className="text-center text-3xl mb-4">Sell a product</h1>
+          <h1 className="text-center text-3xl mb-4">List a product</h1>
         </header>
         <main>
           <form
@@ -79,6 +87,34 @@ const Page = () => {
                     <Categories name="category" />
                   </div>
                 );
+
+              if (field.name === "description")
+                return (
+                  <div className="mb-4" key="description">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                      name="description"
+                      placeholder="Give a brief description of the product"
+                    />
+                  </div>
+                );
+
+              if (field.name === "condition") {
+                return (
+                  <div className="mb-4" key="condition">
+                    <Label htmlFor="condition">Condition</Label>
+                    <Select required name="condition" defaultValue="new">
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="new">New</SelectItem>
+                        <SelectItem value="used">Used</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                );
+              }
 
               return (
                 <div key={field.name} className="mb-4">
