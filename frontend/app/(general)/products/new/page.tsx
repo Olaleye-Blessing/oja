@@ -12,6 +12,7 @@ import { useOjaDB } from "@/hooks/useOjaDB";
 import { API_URL } from "@/utils/constant";
 import { getError } from "@/utils/get-error";
 import { fields } from "./_utils/fields";
+import Categories from "@/components/categories";
 
 const Page = () => {
   const { ojaInstance } = useOjaDB();
@@ -71,6 +72,14 @@ const Page = () => {
             className="cardboard w-full max-w-lg mx-auto rounded-md p-4"
           >
             {fields.map(({ label, ...field }) => {
+              if (field.name === "category")
+                return (
+                  <div className="mb-4" key="categories">
+                    <Label htmlFor="categories">Categories</Label>
+                    <Categories name="category" />
+                  </div>
+                );
+
               return (
                 <div key={field.name} className="mb-4">
                   <Label htmlFor={field.name}>{label}</Label>
