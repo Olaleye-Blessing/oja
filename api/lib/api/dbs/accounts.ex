@@ -1,7 +1,7 @@
 defmodule Api.Dbs.Accounts do
   @moduledoc false
 
-  alias Api.Dbs.Accounts.User
+  alias Api.Dbs.Accounts.{User, UserToken}
   alias Api.Repo
 
   def register(attrs) do
@@ -28,6 +28,17 @@ defmodule Api.Dbs.Accounts do
 
   def update_refresh_token(user, token) do
     user |> User.refresh_token_changeset(token) |> Repo.update()
+  end
+
+  def generate_refresh_token(user) do
+    {token, user_token} = UserToken.build_refresh_token(user)
+
+    Repo.insert!(user_token)
+    token
+  end
+
+  def get_user_refresh_token(user) do
+    Repo.get_by(UserToken, user_id: user.id, context: "refresh_token")
   end
 
   def get(user_id) do

@@ -59,33 +59,29 @@ defmodule Api.Controllers.Accounts do
   end
 
   defp authenticate_user(conn, user) do
-    with {:ok, new_user} <- Accounts.update_refresh_token(user, generate_token(user)) do
-      access_token = generate_token(user)
-      refresh_token = new_user.refresh_token
+    refresh_token = Accounts.get_user_refresh_token(user)
 
-      Router.json_resp(
-        :ok,
-        conn,
-        %{
-          user: Utils.schema_to_map(new_user, [:password, :refresh_token, :products]),
-          tokens: %{
-            access_token: access_token,
-            refresh_token: refresh_token
-          }
-        },
-        200
-      )
-    else
-      {:error, changeset} ->
-        Router.json_resp(
-          :error,
-          conn,
-          %{message: Utils.changeset_error_to_map(changeset)},
-          400
-        )
+    refresh_token =
+      if refresh_token do
+        # TODO: Update this logic:
+        # to check if the refresh token is expired
+        # if it is, generate a new one
+        refresh_token.token
+      else
+        Accounts.generate_refresh_token(user)
+      end
 
-      _ ->
-        Router.json_resp(:error, conn, "Service unavailable! Please try again later", 500)
-    end
+    Router.json_resp(
+      :ok,
+      conn,
+      %{
+        user: Utils.schema_to_map(user, [:password, :products]),
+        tokens: %{
+          access_token: generate_token(user),
+          refresh_token: refresh_token
+        }
+      },
+      200
+    )
   end
 end
