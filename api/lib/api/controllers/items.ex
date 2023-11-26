@@ -49,4 +49,14 @@ defmodule Api.Controllers.Items do
       Router.json_resp(:error, conn, "This category doesn't exist yet!", 400)
     end
   end
+
+  def get_categories(conn) do
+    Router.json_resp(
+      :ok,
+      conn,
+      Items.list_categories()
+      |> Enum.map(&Utils.schema_to_map(&1, [:products])),
+      200
+    )
+  end
 end
