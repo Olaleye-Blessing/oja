@@ -4,7 +4,7 @@ defmodule Api.Dbs.Items.Products do
 
   import Ecto.Changeset
 
-  @required_fields ~w(name price stock_quantity category condition)a
+  @required_fields ~w(name price stock_quantity condition)a
   @optional_fields ~w(description image)a
 
   schema "products" do
@@ -12,10 +12,10 @@ defmodule Api.Dbs.Items.Products do
     field(:description, :string)
     field(:price, :decimal)
     field(:stock_quantity, :integer)
-    field(:category, :string)
     field(:condition, :string)
     field(:image, :string)
 
+    belongs_to(:category, Api.Dbs.Items.Category)
     belongs_to(:user, Api.Dbs.Accounts.User)
 
     timestamps()
@@ -30,8 +30,8 @@ defmodule Api.Dbs.Items.Products do
     |> validate_number(:price, greater_than: 0)
     |> validate_number(:stock_quantity, greater_than_or_equal_to: 0)
     |> validate_inclusion(:condition, ["new", "used"])
-    |> unique_constraint([:name, :user_id],
-      name: :unique_product_name_per_user,
+    |> unique_constraint([:name, :user_id, :category_id],
+      name: :unique_product_name_category_per_user,
       message: "Duplicate product"
     )
   end
