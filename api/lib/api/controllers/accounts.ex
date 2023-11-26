@@ -1,8 +1,8 @@
-defmodule Api.Controllers.Auth do
+defmodule Api.Controllers.Accounts do
   @moduledoc false
 
   alias Api.Router
-  alias Api.Dbs.User
+  alias Api.Dbs.Accounts
   alias Api.Utils
 
   def signup(conn) do
@@ -14,7 +14,7 @@ defmodule Api.Controllers.Auth do
       password: Map.get(body_params, "password")
     }
 
-    case User.register(params) do
+    case Accounts.register(params) do
       {:ok, user} ->
         authenticate_user(conn, user)
 
@@ -37,7 +37,7 @@ defmodule Api.Controllers.Auth do
     }
 
     with {:ok, _} <- validate_login_params(login_params),
-         {:ok, user} <- User.login(login_params) do
+         {:ok, user} <- Accounts.login(login_params) do
       authenticate_user(conn, user)
     else
       {:error, msg} ->
@@ -59,7 +59,7 @@ defmodule Api.Controllers.Auth do
   end
 
   defp authenticate_user(conn, user) do
-    with {:ok, new_user} <- User.update_refresh_token(user, generate_token(user)) do
+    with {:ok, new_user} <- Accounts.update_refresh_token(user, generate_token(user)) do
       access_token = generate_token(user)
       refresh_token = new_user.refresh_token
 

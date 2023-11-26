@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Schemas.Product do
+defmodule Api.Dbs.Items.Products do
   @moduledoc false
   use Ecto.Schema
 
@@ -16,7 +16,7 @@ defmodule Api.Dbs.Schemas.Product do
     field(:condition, :string)
     field(:image, :string)
 
-    belongs_to(:user, Api.Dbs.Schema.User)
+    belongs_to(:user, Api.Dbs.Accounts.User)
 
     timestamps()
   end

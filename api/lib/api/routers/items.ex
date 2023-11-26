@@ -1,10 +1,10 @@
-defmodule Api.Routers.Product do
+defmodule Api.Routers.Items do
   @moduledoc false
   use Plug.Router
 
   import Api.Plugs.Authentication
 
-  alias Api.Controllers.Product, as: ProductController
+  alias Api.Controllers.Items, as: ItemsController
 
   plug(:authenticated, %{products: true})
 
@@ -12,10 +12,10 @@ defmodule Api.Routers.Product do
   plug(:dispatch)
 
   get "/" do
-    ProductController.get_all(conn)
+    ItemsController.get_all_products(conn)
   end
 
   post "/" do
-    ProductController.create(conn)
+    ItemsController.create_product(conn)
   end
 end

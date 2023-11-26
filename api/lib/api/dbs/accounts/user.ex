@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Schema.User do
+defmodule Api.Dbs.Accounts.User do
   @moduledoc false
   use Ecto.Schema
 
@@ -10,7 +10,7 @@ defmodule Api.Dbs.Schema.User do
     field(:password, :string, redact: true)
     field(:refresh_token, :string)
 
-    has_many(:products, Api.Dbs.Schemas.Product)
+    has_many(:products, Api.Dbs.Items.Products)
 
     timestamps()
   end

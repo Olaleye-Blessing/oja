@@ -3,7 +3,7 @@ defmodule Api.Plugs.Authentication do
 
   import Plug.Conn
 
-  alias Api.Dbs.User
+  alias Api.Dbs.Accounts
 
   @doc """
   Saves the authenticated user in the assigns key.
@@ -12,7 +12,7 @@ defmodule Api.Plugs.Authentication do
   def get_current_user(conn, _opts) do
     with {:ok, token} <- get_token(conn),
          {:ok, user_id} <- verify_token(token) do
-      user = User.get(user_id)
+      user = Accounts.get(user_id)
 
       assign(conn, :current_user, user)
     else
