@@ -7,6 +7,7 @@ defmodule Api.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -29,6 +30,15 @@ defmodule Api.MixProject do
       {:cors_plug, "~> 3.0"},
       {:pbkdf2_elixir, "~> 2.2"},
       {:joken, "~> 2.5"}
+    ]
+  end
+
+
+  defp aliases do
+    [
+      setup: ["deps.get", "ecto.setup"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"]
     ]
   end
 end
