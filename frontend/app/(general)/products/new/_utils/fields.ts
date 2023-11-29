@@ -1,9 +1,9 @@
 import { InputProps } from "@/components/ui/input";
-import { IProduct } from "@/interfaces/product";
+import { IFullProduct } from "@/interfaces/product";
 
 interface Field extends Omit<InputProps, "name"> {
   label: string;
-  name: keyof Omit<IProduct, "id" | "created_at" | "updated_at">;
+  name: keyof Omit<IFullProduct, "id" | "created_at" | "updated_at">;
 }
 
 export const fields: Field[] = [
