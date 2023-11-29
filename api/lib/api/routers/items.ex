@@ -15,6 +15,10 @@ defmodule Api.Routers.Items do
     ItemsController.get_all_products(conn)
   end
 
+  get "/:id" do
+    ItemsController.get_product(conn)
+  end
+
   post "/" do
     ItemsController.create_product(conn)
   end

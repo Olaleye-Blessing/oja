@@ -23,6 +23,13 @@ defmodule Api.Dbs.Items do
   end
 
   @doc """
+  Get a product by id
+  """
+  def get_product(id) do
+    Repo.get(Products, id) |> Repo.preload([:category, :user])
+  end
+
+  @doc """
   Create a category
   """
   def create_category(attrs \\ %{}) do

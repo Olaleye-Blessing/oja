@@ -19,6 +19,35 @@ defmodule Api.Controllers.Items do
     Router.json_resp(:ok, conn, products, 200)
   end
 
+  def get_product(%{path_params: %{"id" => id}} = conn) do
+    case Integer.parse(id) do
+      :error ->
+        Router.json_resp(:error, conn, "Please provide a valid product ID", 400)
+
+      {id, _} ->
+        product = Items.get_product(id)
+
+        if product do
+          category = Utils.schema_to_map(product.category, [:products])
+          user = Utils.schema_to_map(product.user, [:products, :password])
+          formatted_product = Utils.schema_to_map(product, [:category, :user])
+
+          Router.json_resp(
+            :ok,
+            conn,
+            Map.merge(formatted_product, %{user: user, category: category}),
+            200
+          )
+        else
+          Router.json_resp(:error, conn, "Product does not exist", 400)
+        end
+    end
+  end
+
+  def get_product(conn) do
+    Router.json_resp(:error, conn, "Please provide a product ID", 400)
+  end
+
   def create_product(%{body_params: body_params, assigns: assigns} = conn) do
     params = Utils.extract_fields(Products.fields(), body_params)
 
