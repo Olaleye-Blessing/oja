@@ -1,7 +1,8 @@
 import Config
 
 config :api,
-  port: 8080
+  port: 8080,
+  env: config_env()
 
 config :api, Api.Repo,
   database: "ecommerce",
