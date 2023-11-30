@@ -30,10 +30,11 @@ const Login = () => {
     try {
       setIsSubmitting(true);
       toast.loading("Logging in...", { id: "login" });
-      const { data } = await axios.post(`${API_URL}/auth/login`, {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `${API_URL}/auth/login`,
+        { email, password },
+        { withCredentials: true },
+      );
 
       toast.success("Logged in successfully", { id: "login" });
       login(data.user, data.tokens);
