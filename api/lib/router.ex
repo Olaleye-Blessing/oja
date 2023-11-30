@@ -5,10 +5,11 @@ defmodule Api.Router do
 
   alias Api.Routers.{Accounts, Items}
 
-  plug(CORSPlug, origin: "*")
+  plug(CORSPlug, origin: ["http://localhost:3000"])
   # see incoming requests in the shell while testing
   plug(Plug.Logger)
 
+  plug(:load_cookies)
   plug(:get_current_user)
 
   # tells plug to match incoming request to our endpoints
@@ -47,5 +48,23 @@ defmodule Api.Router do
     conn
     |> put_resp_header("content-type", "application/json")
     |> send_resp(status, Jason.encode!(body))
+  end
+
+  @doc """
+  Adds cookies to the response.
+  """
+  def add_cookies(conn, cookies) do
+    Enum.reduce(cookies, conn, fn {name, value, opts}, conn ->
+      conn
+      |> Plug.Conn.put_resp_cookie(name, value, opts)
+    end)
+  end
+
+  @doc """
+  Loads cookies from the request and assigns them to the connection.
+  """
+  def load_cookies(conn, _opts) do
+    conn
+    |> Plug.Conn.fetch_cookies()
   end
 end

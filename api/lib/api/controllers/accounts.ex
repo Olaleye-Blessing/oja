@@ -5,6 +5,12 @@ defmodule Api.Controllers.Accounts do
   alias Api.Dbs.Accounts
   alias Api.Utils
 
+  @cookie_opts [
+    path: "/",
+    http_only: Application.get_env(:api, :env) == :prod,
+    secure: Application.get_env(:api, :env) == :prod
+  ]
+
   def signup(conn) do
     %{body_params: body_params} = conn
 
@@ -71,13 +77,19 @@ defmodule Api.Controllers.Accounts do
         Accounts.generate_refresh_token(user)
       end
 
+    access_token = generate_token(user)
+
     Router.json_resp(
       :ok,
-      conn,
+      conn
+      |> Router.add_cookies([
+        {"refresh_token", refresh_token, [max_age: 3600 * 24 * 30] ++ @cookie_opts},
+        {"access_token", access_token, [max_age: Api.Token.expiry()] ++ @cookie_opts}
+      ]),
       %{
         user: Utils.schema_to_map(user, [:password, :products]),
         tokens: %{
-          access_token: generate_token(user),
+          access_token: access_token,
           refresh_token: refresh_token
         }
       },
