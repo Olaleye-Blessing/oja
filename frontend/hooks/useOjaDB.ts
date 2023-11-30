@@ -3,6 +3,7 @@ import { useAuthStore } from "@/store/useAuth";
 import { API_URL } from "@/utils/constant";
 
 export const useOjaDB = () => {
+  // TODO: Getting tokens from the store should be deprecated immediately cookies are stable.
   const token = useAuthStore((state) => state.token);
 
   let ojaInstance = axios.create({
