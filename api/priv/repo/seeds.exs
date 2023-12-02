@@ -43,7 +43,7 @@ purchase_info = %{
                (product2.price |> Decimal.mult(2) |> Decimal.to_float()) * 100 +
                (product3.price |> Decimal.mult(3) |> Decimal.to_float()) * 100) / 100
 }
-IO.inspect(Purchases.create_purchase_info(purchase_info))
+Purchases.create_purchase_info(purchase_info)
 
 User
 |> Repo.all()

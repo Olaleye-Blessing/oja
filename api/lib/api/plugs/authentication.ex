@@ -35,6 +35,17 @@ defmodule Api.Plugs.Authentication do
     end
   end
 
+  def authenticated(conn, %{purchases: _}) do
+    protected_methods = ["POST"]
+    conn_method = Map.get(conn, :method)
+
+    if conn_method in protected_methods do
+      is_authenticated(conn)
+    else
+      conn
+    end
+  end
+
   def authenticated(conn, _opts) do
     conn
   end
