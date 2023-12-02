@@ -29,7 +29,7 @@ defmodule Api.Controllers.Items do
 
         if product do
           category = Utils.schema_to_map(product.category, [:products])
-          user = Utils.schema_to_map(product.user, [:products, :password])
+          user = Utils.schema_to_map(product.user, [:products, :password, :purchases])
           formatted_product = Utils.schema_to_map(product, [:category, :user])
 
           Router.json_resp(
@@ -65,7 +65,7 @@ defmodule Api.Controllers.Items do
             product
             |> Utils.schema_to_map([:user_id, :user, :category, :category_id])
             |> Map.merge(%{
-              user: Utils.schema_to_map(user, [:products]),
+              user: Utils.schema_to_map(user, [:products, :purchases]),
               category: Utils.schema_to_map(product.category, [:products])
             })
 
