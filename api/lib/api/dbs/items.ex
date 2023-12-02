@@ -25,11 +25,7 @@ defmodule Api.Dbs.Items do
   @doc """
   Get a product by id
   """
-  def get_product(id) do
-    Repo.get(Products, id) |> Repo.preload([:category, :user])
-  end
-
-  def get_product(id, preloaded_fields \\ []) do
+  def get_product(id, preloaded_fields \\ [:category, :user]) do
     Products |> Repo.get(id) |> Repo.preload(preloaded_fields)
   end
 
