@@ -10,6 +10,7 @@ defmodule Api.Dbs.Accounts.User do
     field(:password, :string, redact: true)
 
     has_many(:products, Api.Dbs.Items.Products)
+    has_many(:purchases, Api.Dbs.Purchases.Purchases)
 
     timestamps()
   end
