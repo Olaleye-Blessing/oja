@@ -5,6 +5,8 @@ defmodule Api.Plugs.Authentication do
 
   alias Api.Dbs.Accounts
 
+  @common_protected_paths ["POST", "PUT", "DELETE"]
+
   @doc """
   Saves the authenticated user in the assigns key.
   Other subsequent plugs will have access to the user.
@@ -24,30 +26,16 @@ defmodule Api.Plugs.Authentication do
   Protects routes to ensure they are only accessible by authenticated users.
   If a user is not authenticated, a JSON response with an unauthorized status code (401) will be returned, prompting the user to log in again.
   """
-  def authenticated(conn, %{products: _}) do
-    protected_methods = ["POST", "PUT", "DELETE"]
-    conn_method = Map.get(conn, :method)
+  def authenticated(conn, %{products: _}), do: protect_auth_path(conn, @common_protected_paths)
+  def authenticated(conn, %{purchases: _}), do: protect_auth_path(conn, ["POST"])
+  def authenticated(conn, _opts), do: conn
 
-    if conn_method in protected_methods do
+  defp protect_auth_path(conn, methods) do
+    if Map.get(conn, :method) in methods do
       is_authenticated(conn)
     else
       conn
     end
-  end
-
-  def authenticated(conn, %{purchases: _}) do
-    protected_methods = ["POST"]
-    conn_method = Map.get(conn, :method)
-
-    if conn_method in protected_methods do
-      is_authenticated(conn)
-    else
-      conn
-    end
-  end
-
-  def authenticated(conn, _opts) do
-    conn
   end
 
   defp is_authenticated(conn) do
