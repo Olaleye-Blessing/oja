@@ -5,11 +5,8 @@ import Link from "next/link";
 import React from "react";
 import AddToCart from "./add-to-cart";
 
-const Product = ({
-  product: { stock_quantity, ...product },
-}: {
-  product: IFullProduct;
-}) => {
+const Product = ({ product }: { product: IFullProduct }) => {
+  const { stock_quantity } = product;
   return (
     <div className="sm:grid grid-cols-[2fr_2fr] gap-4 lg:grid-cols-[2fr_5fr] lg:gap-8">
       <section className="">
@@ -64,7 +61,7 @@ const Product = ({
         >
           <span>{stock_quantity}</span> left in stock
         </p>
-        <AddToCart stock_quantity={stock_quantity} price={product.price} />
+        <AddToCart product={product} />
       </section>
     </div>
   );
