@@ -4,6 +4,8 @@ defmodule Api.Dbs.Cart.Product do
 
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
   @required_fields ~w(quantity price product_id)a
 
   def fields(), do: @required_fields
@@ -15,6 +17,7 @@ defmodule Api.Dbs.Cart.Product do
     belongs_to(:product, Api.Dbs.Catalog.Product)
   end
 
+  @spec changeset(track_embed :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(track_embed, params) do
     track_embed
     |> cast(params, fields())

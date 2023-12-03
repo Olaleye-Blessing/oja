@@ -5,6 +5,8 @@ defmodule Api.Dbs.Catalog.Category do
 
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
   schema "categories" do
     field(:name, :string)
     has_many(:products, Api.Dbs.Catalog.Product)
@@ -12,6 +14,7 @@ defmodule Api.Dbs.Catalog.Category do
     timestamps()
   end
 
+  @spec changeset(category :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(category, params) do
     category
     |> cast(params, [:name])

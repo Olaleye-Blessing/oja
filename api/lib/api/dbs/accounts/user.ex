@@ -4,6 +4,10 @@ defmodule Api.Dbs.Accounts.User do
 
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
+  @required_fields ~w(username email password)a
+
   schema "users" do
     field(:username, :string)
     field(:email, :string)
@@ -15,10 +19,11 @@ defmodule Api.Dbs.Accounts.User do
     timestamps()
   end
 
+  @spec changeset(user :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(user, params) do
     user
-    |> cast(params, [:username, :email, :password])
-    |> validate_required([:username, :email, :password])
+    |> cast(params, @required_fields)
+    |> validate_required(@required_fields)
     |> validate_email()
     |> validate_password()
     |> validate_username()

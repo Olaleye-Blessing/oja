@@ -3,6 +3,8 @@ defmodule Api.Dbs.Cart.ShippingAddress do
 
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
   @required_fields ~w(country state city address full_name)a
   @optional_fields ~w(zip_code)a
 
@@ -17,6 +19,7 @@ defmodule Api.Dbs.Cart.ShippingAddress do
     field(:full_name, :string)
   end
 
+  @spec changeset(track_embed :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(track_embed, params) do
     track_embed
     |> cast(params, fields())

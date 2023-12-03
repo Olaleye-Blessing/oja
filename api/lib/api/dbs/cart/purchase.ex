@@ -5,6 +5,10 @@ defmodule Api.Dbs.Cart.Purchase do
 
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
+  @required_fields ~w(status user_id total_price)a
+
   schema "purchases" do
     embeds_many(:products, Api.Dbs.Cart.Product, on_replace: :delete)
     embeds_one(:shipping_address, Api.Dbs.Cart.ShippingAddress, on_replace: :update)
@@ -16,12 +20,13 @@ defmodule Api.Dbs.Cart.Purchase do
     timestamps()
   end
 
+  @spec changeset(info :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(info, params) do
     info
-    |> cast(params, [:status, :user_id, :total_price])
+    |> cast(params, @required_fields)
     |> cast_embed(:shipping_address)
     |> cast_embed(:products)
-    |> validate_required([:status, :user_id, :total_price])
+    |> validate_required(@required_fields)
     |> validate_inclusion(:status, ["pending", "cancelled", "shipped", "delivered"])
     |> foreign_key_constraint(:user_id)
   end
