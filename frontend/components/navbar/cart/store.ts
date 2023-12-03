@@ -11,7 +11,6 @@ interface State {
 }
 
 interface Actions {
-  // addProduct: (product: IProduct, quantity: number, replace?: boolean) => void;
   addProduct: (props: {
     product: IProduct;
     quantity: number;
