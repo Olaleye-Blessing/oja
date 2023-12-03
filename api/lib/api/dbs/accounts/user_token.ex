@@ -7,6 +7,8 @@ defmodule Api.Dbs.Accounts.UserToken do
 
   alias Api.Dbs.Accounts.UserToken
 
+  @type t :: %__MODULE__{}
+
   @rand_size 32
 
   schema "users_tokens" do

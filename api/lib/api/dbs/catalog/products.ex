@@ -4,6 +4,8 @@ defmodule Api.Dbs.Catalog.Product do
 
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
   @required_fields ~w(name price stock_quantity condition)a
   @optional_fields ~w(description image)a
 
@@ -23,6 +25,7 @@ defmodule Api.Dbs.Catalog.Product do
 
   def fields(), do: @optional_fields ++ @required_fields
 
+  @spec changeset(product :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(product, params) do
     product
     |> cast(params, @optional_fields ++ @required_fields)
