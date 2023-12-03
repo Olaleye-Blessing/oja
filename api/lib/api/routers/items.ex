@@ -11,6 +11,10 @@ defmodule Api.Routers.Items do
   plug(:match)
   plug(:dispatch)
 
+  get "/categories", init_opts: [parent: :categories] do
+    ItemsController.get_categories(conn)
+  end
+
   get "/" do
     ItemsController.get_all_products(conn)
   end
@@ -21,9 +25,5 @@ defmodule Api.Routers.Items do
 
   post "/" do
     ItemsController.create_product(conn)
-  end
-
-  get "/categories", init_opts: [parent: :categories] do
-    ItemsController.get_categories(conn)
   end
 end
