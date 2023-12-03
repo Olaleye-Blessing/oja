@@ -4,8 +4,14 @@ import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { ShoppingCart } from "lucide-react";
 import { IProduct } from "@/interfaces/product";
+import { useAuthStore } from "@/store/useAuth";
+import { useCartStore } from "../navbar/cart/store";
 
 const Product = ({ product }: { product: IProduct }) => {
+  const user = useAuthStore((state) => state.user);
+  const cartProducts = useCartStore((state) => state.products);
+  const addProductToCart = useCartStore((state) => state.addProduct);
+
   return (
     <li>
       <Link
@@ -58,7 +64,19 @@ const Product = ({ product }: { product: IProduct }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                toast.success("Added to cart");
+
+                if (!user) return toast.error("Please login to add to cart");
+
+                const cartItem = cartProducts.find(
+                  (item) => item.product.id === product.id,
+                );
+
+                if (cartItem)
+                  return toast.error("Product already in cart", {
+                    id: String(product.id),
+                  });
+
+                addProductToCart({ product, quantity: 1 });
               }}
             >
               <ShoppingCart size={20} />

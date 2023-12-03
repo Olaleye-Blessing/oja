@@ -10,6 +10,7 @@ import { MenuIcon } from "lucide-react";
 import Profile from "./profile";
 import AuthPages from "./auth-pages";
 import Search from "./search";
+import Cart from "./cart";
 
 const Navbar = () => {
   const user = useStore(useAuthStore, (state) => state.user);
@@ -43,6 +44,7 @@ const Navbar = () => {
       >
         <Pages />
         <Search />
+        <Cart />
         {user ? <Profile /> : <AuthPages />}
       </div>
 
