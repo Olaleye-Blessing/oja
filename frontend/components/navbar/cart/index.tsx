@@ -18,6 +18,8 @@ const Cart = () => {
   const products = useStore(useCartStore, (state) => state.products) || [];
   const addProductToCart = useCartStore((state) => state.addProduct);
   const removeProductFromCart = useCartStore((state) => state.removeProduct);
+  const clearCart = useCartStore((state) => state.clearCart);
+
   const totalPrice = products.reduce(
     (acc, { product, quantity }) => acc + product.price * quantity,
     0,
@@ -74,7 +76,17 @@ const Cart = () => {
             </span>
           </p>
           <SheetClose asChild>
-            <Button type="button" variant={"outline"} className="">
+            <Button
+              type="button"
+              variant={"destructive"}
+              onClick={() => clearCart()}
+              className="px-2"
+            >
+              Clear
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button type="button" variant={"outline"} className="px-2">
               Save
             </Button>
           </SheetClose>
@@ -82,6 +94,7 @@ const Cart = () => {
             type="submit"
             form="cart-form"
             aria-disabled={products.length === 0}
+            className="px-2"
           >
             Checkout
           </Button>
