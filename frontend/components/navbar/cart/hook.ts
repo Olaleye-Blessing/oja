@@ -24,10 +24,7 @@ export const useCartDB = () => {
   const checkout = useMutation({
     mutationFn: async (data: CheckoutData) => {
       try {
-        const { data: res } = await ojaInstance.post<string>(
-          "/purchases",
-          data,
-        );
+        const { data: res } = await ojaInstance.post<string>("/carts", data);
 
         return res;
       } catch (error) {

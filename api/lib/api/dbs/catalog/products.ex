@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Items.Products do
+defmodule Api.Dbs.Catalog.Product do
   @moduledoc false
   use Ecto.Schema
 
@@ -15,7 +15,7 @@ defmodule Api.Dbs.Items.Products do
     field(:condition, :string)
     field(:image, :string)
 
-    belongs_to(:category, Api.Dbs.Items.Category)
+    belongs_to(:category, Api.Dbs.Catalog.Category)
     belongs_to(:user, Api.Dbs.Accounts.User)
 
     timestamps()

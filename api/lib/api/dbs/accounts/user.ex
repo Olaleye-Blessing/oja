@@ -9,8 +9,8 @@ defmodule Api.Dbs.Accounts.User do
     field(:email, :string)
     field(:password, :string, redact: true)
 
-    has_many(:products, Api.Dbs.Items.Products)
-    has_many(:purchases, Api.Dbs.Purchases.Purchases)
+    has_many(:products, Api.Dbs.Catalog.Product)
+    has_many(:purchases, Api.Dbs.Cart.Purchase)
 
     timestamps()
   end

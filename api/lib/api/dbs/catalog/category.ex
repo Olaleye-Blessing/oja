@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Items.Category do
+defmodule Api.Dbs.Catalog.Category do
   @moduledoc false
 
   use Ecto.Schema
@@ -7,7 +7,7 @@ defmodule Api.Dbs.Items.Category do
 
   schema "categories" do
     field(:name, :string)
-    has_many(:products, Api.Dbs.Items.Products)
+    has_many(:products, Api.Dbs.Catalog.Product)
 
     timestamps()
   end
