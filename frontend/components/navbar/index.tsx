@@ -33,7 +33,7 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <div className="cardboard rounded-none flex items-center justify-between py-2 px-4 relative mb-6">
+    <div className="cardboard rounded-none flex items-center justify-between py-2 px-4 mb-6 sticky top-0 left-0 right-0">
       <div>
         <HomeLogo />
       </div>
