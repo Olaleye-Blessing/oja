@@ -1,15 +1,15 @@
-defmodule Api.Controllers.Items do
+defmodule Api.Controllers.Catalog do
   @moduledoc false
 
   alias Api.Router
   alias Api.Utils
-  alias Api.Dbs.Items
+  alias Api.Dbs.Catalog
 
-  alias Api.Dbs.Items.Products
+  alias Api.Dbs.Catalog.Product
 
   def get_all_products(conn) do
     products =
-      Items.list_products()
+      Catalog.list_products()
       |> Enum.map(fn product ->
         product
         |> Utils.schema_to_map([:user, :user_id, :category])
@@ -25,7 +25,7 @@ defmodule Api.Controllers.Items do
         Router.json_resp(:error, conn, "Please provide a valid product ID", 400)
 
       {id, _} ->
-        product = Items.get_product(id)
+        product = Catalog.get_product(id)
 
         if product do
           category = Utils.schema_to_map(product.category, [:products])
@@ -49,17 +49,17 @@ defmodule Api.Controllers.Items do
   end
 
   def create_product(%{body_params: body_params, assigns: assigns} = conn) do
-    params = Utils.extract_fields(Products.fields(), body_params)
+    params = Utils.extract_fields(Product.fields(), body_params)
 
     category =
       body_params
       |> Map.get("category")
-      |> Items.get_category()
+      |> Catalog.get_category()
 
     user = assigns[:current_user]
 
     if category do
-      case Items.create_product(user, category, params) do
+      case Catalog.create_product(user, category, params) do
         {:ok, product} ->
           formatted_product =
             product
@@ -83,7 +83,7 @@ defmodule Api.Controllers.Items do
     Router.json_resp(
       :ok,
       conn,
-      Items.list_categories()
+      Catalog.list_categories()
       |> Enum.map(&Utils.schema_to_map(&1, [:products])),
       200
     )

@@ -2,14 +2,14 @@ import Ecto.Query
 
 alias Api.Repo
 alias Api.Dbs.Accounts.User
-alias Api.Dbs.Items.Products
-alias Api.Dbs.Purchases
+alias Api.Dbs.Catalog.Product
+alias Api.Dbs.Cart
 
 # get all users and pick the first one
 user = Repo.all(User) |> hd()
 
 # get all products and pick the 3
-[product1, product2, product3] = Repo.all(Products) |> Enum.take(3)
+[product1, product2, product3] = Repo.all(Product) |> Enum.take(3)
 
 purchase_info = %{
   status: "pending",
@@ -43,7 +43,7 @@ purchase_info = %{
                (product2.price |> Decimal.mult(2) |> Decimal.to_float()) * 100 +
                (product3.price |> Decimal.mult(3) |> Decimal.to_float()) * 100) / 100
 }
-Purchases.create_purchase_info(purchase_info)
+Cart.create(purchase_info)
 
 User
 |> Repo.all()

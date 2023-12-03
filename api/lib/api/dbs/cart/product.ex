@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Purchases.Product do
+defmodule Api.Dbs.Cart.Product do
   @moduledoc false
   use Ecto.Schema
 
@@ -12,14 +12,12 @@ defmodule Api.Dbs.Purchases.Product do
     field(:quantity, :integer)
     field(:price, :decimal)
 
-    belongs_to(:product, Api.Dbs.Items.Products)
+    belongs_to(:product, Api.Dbs.Catalog.Product)
   end
 
   def changeset(track_embed, params) do
     track_embed
     |> cast(params, fields())
     |> validate_required(@required_fields)
-
-    # |> cast_assoc(:product)
   end
 end

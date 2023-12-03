@@ -1,11 +1,11 @@
-defmodule Api.Controllers.Purchases do
+defmodule Api.Controllers.Cart do
   @moduledoc false
 
   alias Api.Router
   alias Api.Utils
-  alias Api.Dbs.Purchases.{ShippingAddress}
-  alias Api.Dbs.Items
-  alias Api.Dbs.Purchases
+  alias Api.Dbs.Cart.{ShippingAddress}
+  alias Api.Dbs.Catalog
+  alias Api.Dbs.Cart
 
   def create_purchase(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
     products =
@@ -24,7 +24,7 @@ defmodule Api.Controllers.Purchases do
         total_price: total_price
       }
 
-      case Purchases.create_purchase_info(purchase_info) do
+      case Cart.create(purchase_info) do
         {:ok, _info} ->
           IO.inspect("____ 🔥 Success _____")
           # TODO: send a confirmation email in the future
@@ -54,7 +54,7 @@ defmodule Api.Controllers.Purchases do
       products
       |> Enum.reduce({%{}, 0, []}, fn %{product_id: product_id, quantity: quantity},
                                       {error, total_price, new_products} ->
-        case Items.get_product(product_id, []) do
+        case Catalog.get_product(product_id, []) do
           nil ->
             {update_price_error(error, product_id, "Product not found"), total_price,
              new_products}

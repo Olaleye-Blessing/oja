@@ -1,10 +1,10 @@
-defmodule Api.Routers.Items do
+defmodule Api.Routers.Catalog do
   @moduledoc false
   use Plug.Router
 
   import Api.Plugs.Authentication
 
-  alias Api.Controllers.Items, as: ItemsController
+  alias Api.Controllers.Catalog, as: CatalogController
 
   plug(:authenticated, %{products: true})
 
@@ -12,18 +12,18 @@ defmodule Api.Routers.Items do
   plug(:dispatch)
 
   get "/categories", init_opts: [parent: :categories] do
-    ItemsController.get_categories(conn)
+    CatalogController.get_categories(conn)
   end
 
   get "/" do
-    ItemsController.get_all_products(conn)
+    CatalogController.get_all_products(conn)
   end
 
   get "/:id" do
-    ItemsController.get_product(conn)
+    CatalogController.get_product(conn)
   end
 
   post "/" do
-    ItemsController.create_product(conn)
+    CatalogController.create_product(conn)
   end
 end

@@ -1,11 +1,11 @@
-defmodule Api.Routers.Purchases do
+defmodule Api.Routers.Cart do
   @moduledoc false
 
   use Plug.Router
 
   import(Api.Plugs.Authentication)
 
-  alias Api.Controllers.Purchases, as: PurchasesController
+  alias Api.Controllers.Cart, as: CartController
 
   plug(:authenticated, %{purchases: true})
 
@@ -13,6 +13,6 @@ defmodule Api.Routers.Purchases do
   plug(:dispatch)
 
   post "/" do
-    PurchasesController.create_purchase(conn)
+    CartController.create_purchase(conn)
   end
 end
