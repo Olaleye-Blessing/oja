@@ -19,6 +19,7 @@ defmodule Api.Dbs.Cart.ShippingAddress do
     field(:full_name, :string)
   end
 
+  @doc false
   @spec changeset(track_embed :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(track_embed, params) do
     track_embed

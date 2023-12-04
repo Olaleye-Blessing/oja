@@ -23,8 +23,12 @@ defmodule Api.Dbs.Catalog.Product do
     timestamps()
   end
 
+  @doc """
+  Returns the schema fields.
+  """
   def fields(), do: @optional_fields ++ @required_fields
 
+  @doc false
   @spec changeset(product :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(product, params) do
     product

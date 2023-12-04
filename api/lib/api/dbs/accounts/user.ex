@@ -19,6 +19,9 @@ defmodule Api.Dbs.Accounts.User do
     timestamps()
   end
 
+  @doc """
+  Builds a changeset based for a user
+  """
   @spec changeset(user :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(user, params) do
     user
@@ -28,11 +31,6 @@ defmodule Api.Dbs.Accounts.User do
     |> validate_password()
     |> validate_username()
     |> hash_password()
-  end
-
-  def refresh_token_changeset(user, token) do
-    user
-    |> change(refresh_token: token)
   end
 
   defp validate_email(changeset) do

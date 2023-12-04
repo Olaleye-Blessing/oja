@@ -14,6 +14,7 @@ defmodule Api.Dbs.Catalog.Category do
     timestamps()
   end
 
+  @doc false
   @spec changeset(category :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(category, params) do
     category
