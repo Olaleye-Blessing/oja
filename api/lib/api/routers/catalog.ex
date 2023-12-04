@@ -1,5 +1,8 @@
 defmodule Api.Routers.Catalog do
-  @moduledoc false
+  @moduledoc """
+  This module contains the routes for the catalog endpoints.
+  It is responsible for dispatching the connection to the catalog' controller.
+  """
   use Plug.Router
 
   import Api.Plugs.Authentication

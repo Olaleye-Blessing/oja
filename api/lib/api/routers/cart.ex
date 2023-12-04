@@ -1,5 +1,8 @@
 defmodule Api.Routers.Cart do
-  @moduledoc false
+  @moduledoc """
+  This module contains the routes for the cart endpoints.
+  It is responsible for dispatching the connection to the cart' controller.
+  """
 
   use Plug.Router
 

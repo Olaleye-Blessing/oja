@@ -10,6 +10,11 @@ defmodule Api.Dbs.Accounts do
     |> Repo.insert()
   end
 
+  @doc """
+  Login a user
+  """
+  @spec login(%{email: String.t(), password: String.t()}) ::
+          {:ok, User.t()} | {:error, String.t()}
   def login(%{email: email, password: password}) do
     invalid_msg = {:error, "Incorrect email or password"}
 
@@ -26,10 +31,10 @@ defmodule Api.Dbs.Accounts do
     end
   end
 
-  def update_refresh_token(user, token) do
-    user |> User.refresh_token_changeset(token) |> Repo.update()
-  end
-
+  @doc """
+  Generate a refresh token for a user
+  """
+  @spec generate_refresh_token(User.t()) :: String.t()
   def generate_refresh_token(user) do
     {token, user_token} = UserToken.build_refresh_token(user)
 
@@ -37,10 +42,18 @@ defmodule Api.Dbs.Accounts do
     token
   end
 
+  @doc """
+  Get the a user refresh token
+  """
+  @spec get_user_refresh_token(User.t()) :: UserToken.t() | nil
   def get_user_refresh_token(user) do
     Repo.get_by(UserToken, user_id: user.id, context: "refresh_token")
   end
 
+  @doc """
+  Get a user by id
+  """
+  @spec get(String.t()) :: User.t() | nil
   def get(user_id) do
     Repo.get(User, user_id)
   end

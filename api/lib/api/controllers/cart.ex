@@ -7,6 +7,11 @@ defmodule Api.Controllers.Cart do
   alias Api.Dbs.Catalog
   alias Api.Dbs.Cart
 
+  # TODO: Rename the `purchases` *alias* to `orders` in the future
+  @doc """
+  Creates a new purchase, i.e. a new order.
+  """
+  @spec create_purchase(Plug.Conn.t()) :: Plug.Conn.t()
   def create_purchase(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
     products =
       body_params["products"]

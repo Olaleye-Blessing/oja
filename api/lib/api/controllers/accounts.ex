@@ -1,5 +1,7 @@
 defmodule Api.Controllers.Accounts do
-  @moduledoc false
+  @moduledoc """
+  This module contains the logic for the accounts endpoints.
+  """
 
   alias Api.Router
   alias Api.Dbs.Accounts
@@ -11,6 +13,15 @@ defmodule Api.Controllers.Accounts do
     secure: Application.get_env(:api, :env) == :prod
   ]
 
+  @doc """
+  Creates a new user.
+  If the user is created successfully:
+  - A refresh token is generated and stored in the database.
+  - An access token is generated
+  - The access token and refresh token are stored in cookies and also returned in the json response.
+    Note: The refresh and access tokens might be removed from the json response in the future.
+  """
+  @spec signup(Plug.Conn.t()) :: Plug.Conn.t()
   def signup(conn) do
     %{body_params: body_params} = conn
 
@@ -34,6 +45,11 @@ defmodule Api.Controllers.Accounts do
     end
   end
 
+  @doc """
+  Logs in a user.
+  If the user is logged in successfully: (Check signup/1 for more details)
+  """
+  @spec login(Plug.Conn.t()) :: Plug.Conn.t()
   def login(conn) do
     %{body_params: body_params} = conn
 

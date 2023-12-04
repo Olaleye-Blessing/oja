@@ -7,6 +7,10 @@ defmodule Api.Controllers.Catalog do
 
   alias Api.Dbs.Catalog.Product
 
+  @doc """
+  Returns all products.
+  """
+  @spec get_all_products(Plug.Conn.t()) :: Plug.Conn.t()
   def get_all_products(conn) do
     products =
       Catalog.list_products()
@@ -19,6 +23,12 @@ defmodule Api.Controllers.Catalog do
     Router.json_resp(:ok, conn, products, 200)
   end
 
+  @doc """
+  Returns a product with the given ID.
+
+  If the product doesn't exist or product ID is not a valid integer, a JSON response with a bad request status code (400) will be returned.
+  """
+  @spec get_product(Plug.Conn.t()) :: Plug.Conn.t()
   def get_product(%{path_params: %{"id" => id}} = conn) do
     case Integer.parse(id) do
       :error ->
@@ -48,6 +58,10 @@ defmodule Api.Controllers.Catalog do
     Router.json_resp(:error, conn, "Please provide a product ID", 400)
   end
 
+  @doc """
+  Creates a new product.
+  """
+  @spec create_product(Plug.Conn.t()) :: Plug.Conn.t()
   def create_product(%{body_params: body_params, assigns: assigns} = conn) do
     params = Utils.extract_fields(Product.fields(), body_params)
 
@@ -79,6 +93,10 @@ defmodule Api.Controllers.Catalog do
     end
   end
 
+  @doc """
+  Gets all categories.
+  """
+  @spec get_categories(Plug.Conn.t()) :: Plug.Conn.t()
   def get_categories(conn) do
     Router.json_resp(
       :ok,

@@ -1,5 +1,8 @@
 defmodule Api.Plugs.Authentication do
-  @moduledoc false
+  @moduledoc """
+  This module contains the plugs responsible for authenticating the user.
+  It contains the plugs that protect routes from unauthenticated users.
+  """
 
   import Plug.Conn
 
@@ -11,6 +14,7 @@ defmodule Api.Plugs.Authentication do
   Saves the authenticated user in the assigns key.
   Other subsequent plugs will have access to the user.
   """
+  @spec get_current_user(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def get_current_user(conn, _opts) do
     with {:ok, token} <- get_token(conn),
          {:ok, user_id} <- verify_token(token) do
@@ -24,8 +28,11 @@ defmodule Api.Plugs.Authentication do
 
   @doc """
   Protects routes to ensure they are only accessible by authenticated users.
+  It uses the second argument to determine which routes to protect.
+
   If a user is not authenticated, a JSON response with an unauthorized status code (401) will be returned, prompting the user to log in again.
   """
+  @spec authenticated(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def authenticated(conn, %{products: _}), do: protect_auth_path(conn, @common_protected_paths)
   def authenticated(conn, %{purchases: _}), do: protect_auth_path(conn, ["POST"])
   def authenticated(conn, _opts), do: conn

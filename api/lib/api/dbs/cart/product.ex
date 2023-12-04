@@ -17,6 +17,7 @@ defmodule Api.Dbs.Cart.Product do
     belongs_to(:product, Api.Dbs.Catalog.Product)
   end
 
+  @doc false
   @spec changeset(track_embed :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(track_embed, params) do
     track_embed

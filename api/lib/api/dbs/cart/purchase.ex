@@ -20,6 +20,7 @@ defmodule Api.Dbs.Cart.Purchase do
     timestamps()
   end
 
+  @doc false
   @spec changeset(info :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
   def changeset(info, params) do
     info

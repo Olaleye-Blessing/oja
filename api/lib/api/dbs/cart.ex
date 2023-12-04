@@ -7,6 +7,16 @@ defmodule Api.Dbs.Cart do
   alias Api.Dbs.Catalog
   alias Api.Dbs.Catalog.Product
 
+  @doc """
+  Create a purchase(cart).
+
+  The products stock_quantity will be updated for each product in the cart.
+
+  ## Examples
+
+        iex> Api.Dbs.Cart.create(%{products: [%{product_id: 1, quantity: 1}], shipping_address: %{}, user_id: 1, total_price: 100, status: "pending"})
+        {:ok, %Purchase{}}
+  """
   def create(%{products: products} = params) do
     Enum.reduce(products, Multi.new(), fn product, multi ->
       product_id = Map.get(product, :product_id)

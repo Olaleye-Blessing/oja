@@ -1,5 +1,8 @@
 defmodule Api.Routers.Accounts do
-  # Api.Routers.Auth
+  @moduledoc """
+  This module contains the routes for the accounts endpoints.
+  It is responsible for dispatching the connection to the accounts' controller.
+  """
   use Plug.Router
 
   alias Api.Controllers.Accounts, as: AccountsController

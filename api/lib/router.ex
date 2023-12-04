@@ -1,4 +1,12 @@
 defmodule Api.Router do
+  @moduledoc """
+  This is the entry router for the API. It defines the routes and plugs.
+  It is responsible for dispatching the connection to the appropriate
+  handler.
+
+  The router is also responsible for setting the response type to
+  application/json.
+  """
   use Plug.Router
 
   import Api.Plugs.Authentication
@@ -38,6 +46,7 @@ defmodule Api.Router do
   @doc """
   Set the response type of a route to application/json.
   """
+  @spec json_resp(:ok | :error, Plug.Conn.t(), any(), integer()) :: Plug.Conn.t()
   def json_resp(:error, conn, body, status) do
     conn |> json_resp(%{status: status, message: body}, status)
   end
@@ -55,6 +64,8 @@ defmodule Api.Router do
   @doc """
   Adds cookies to the response.
   """
+  @spec add_cookies(Plug.Conn.t(), [{String.t(), String.t(), Plug.Conn.CookieOpts.t()}]) ::
+          Plug.Conn.t()
   def add_cookies(conn, cookies) do
     Enum.reduce(cookies, conn, fn {name, value, opts}, conn ->
       conn
@@ -65,6 +76,7 @@ defmodule Api.Router do
   @doc """
   Loads cookies from the request and assigns them to the connection.
   """
+  @spec load_cookies(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def load_cookies(conn, _opts) do
     conn
     |> Plug.Conn.fetch_cookies()
