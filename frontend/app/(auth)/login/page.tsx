@@ -12,6 +12,7 @@ import { getError } from "@/utils/get-error";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
+import { InputPassword } from "@/components/ui/input-password";
 
 const Login = () => {
   const login = useAuthStore((store) => store.login);
@@ -82,8 +83,7 @@ const Login = () => {
 
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
-            type="password"
+          <InputPassword
             id="password"
             name="password"
             placeholder="*********"
