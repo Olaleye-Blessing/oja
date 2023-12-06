@@ -33,7 +33,7 @@ const Products = () => {
           {products.length === 0 ? (
             <p>No products available</p>
           ) : (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <ul className="w-full grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fit,minmax(18rem,1fr))]">
               {products.map((product) => {
                 return <Product key={product.id} product={product} />;
               })}

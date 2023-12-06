@@ -29,7 +29,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <main className="px-4">
+      <main className="px-4 md:flex md:items-start">
         <Filter />
         <Products />
       </main>
