@@ -15,9 +15,11 @@ interface Category {
   name: string;
 }
 
-interface CategoriesProps extends SelectProps {}
+interface CategoriesProps extends SelectProps {
+  includeAll?: boolean;
+}
 
-const Categories = ({ ...select }: CategoriesProps) => {
+const Categories = ({ includeAll, ...select }: CategoriesProps) => {
   const { data, isLoading, error, refetch } = useOjaQuery<Category[]>({
     url: `${API_URL}/products/categories`,
     options: {
@@ -29,6 +31,10 @@ const Categories = ({ ...select }: CategoriesProps) => {
 
   if (data) {
     categories = sortObjectArray<Category>(data, "name");
+
+    if (includeAll) {
+      categories = [{ id: 0, name: "All" }, ...categories];
+    }
   }
 
   return (

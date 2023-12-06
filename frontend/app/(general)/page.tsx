@@ -7,6 +7,7 @@ import {
 import Filter from "@/components/home_page/filter";
 import Products from "@/components/home_page/products";
 import { Metadata } from "next";
+import { ProductsFilter } from "@/components/home_page/types";
 
 // TODO: Improve metadata
 export const metadata: Metadata = {
@@ -14,12 +15,16 @@ export const metadata: Metadata = {
   description: "A better description is coming",
 };
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: ProductsFilter;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ["products"],
-    queryFn: getProducts,
+    queryFn: () => getProducts(searchParams),
   });
 
   return (
