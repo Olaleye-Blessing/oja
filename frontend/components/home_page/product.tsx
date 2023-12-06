@@ -13,7 +13,7 @@ const Product = ({ product }: { product: IProduct }) => {
   const addProductToCart = useCartStore((state) => state.addProduct);
 
   return (
-    <li>
+    <li className="sm:max-w-sm">
       <Link
         href={`/products/${product.id}`}
         className="h-full flex flex-col rounded-md cardboard"
