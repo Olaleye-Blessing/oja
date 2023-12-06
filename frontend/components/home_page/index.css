@@ -1,0 +1,19 @@
+[data-filter="form_body"] {
+  @apply grid grid-rows-[1fr] transition-grid-rows duration-300 ease-in-out md:block;
+}
+
+[data-filter="form_body"] > div {
+    @apply overflow-hidden;
+}
+
+[data-filter="form"].close [data-filter="form_body"] {
+    @apply grid-rows-[0fr];
+}
+
+[data-filter="form_toggle"] {
+  @apply transition-transform rotate-90;
+}
+
+[data-filter="form"].close [data-filter="form_toggle"] {
+    @apply rotate-0;
+}
