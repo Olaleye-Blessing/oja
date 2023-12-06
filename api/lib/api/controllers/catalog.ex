@@ -11,9 +11,20 @@ defmodule Api.Controllers.Catalog do
   Returns all products.
   """
   @spec get_all_products(Plug.Conn.t()) :: Plug.Conn.t()
-  def get_all_products(conn) do
+  def get_all_products(%{query_params: query_params} = conn) do
+    search_params =
+      Utils.extract_fields([:name, :price_from, :price_to, :condition, :category], query_params)
+
+    search_params =
+      search_params
+      |> Map.put(:price, %{
+        from: Map.get(search_params, :price_from, nil),
+        to: Map.get(search_params, :price_to, nil)
+      })
+      |> Map.drop([:price_from, :price_to])
+
     products =
-      Catalog.list_products()
+      Catalog.list_products(search_params)
       |> Enum.map(fn product ->
         product
         |> Utils.schema_to_map([:user, :user_id, :category])

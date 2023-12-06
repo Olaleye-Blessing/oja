@@ -4,6 +4,7 @@ defmodule Api.Dbs.Catalog do
 
   alias Api.Repo
   alias Api.Dbs.Catalog.{Product, Category}
+  alias Api.Dbs.Catalog.Query.Product, as: ProductQuery
 
   @doc """
   Create a product
@@ -32,10 +33,11 @@ defmodule Api.Dbs.Catalog do
       iex> Api.Dbs.Catalog.list_products()
       [%Product{}, %Product{}]
   """
-  def list_products() do
-    Product
+  def list_products(search \\ %{}, preloads \\ []) do
+    search
+    |> ProductQuery.filter()
     |> Repo.all()
-    |> Repo.preload([:category])
+    |> Repo.preload([:category] ++ preloads)
   end
 
   @doc """
