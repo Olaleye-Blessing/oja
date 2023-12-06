@@ -20,7 +20,7 @@ import Categories from "../categories";
 const Filter = () => {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  const { filterParams } = useFilterParams();
+  const { filterParams, filter } = useFilterParams();
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,11 +58,21 @@ const Filter = () => {
         <div>
           <div className="mb-4">
             <Label htmlFor="name">Name</Label>
-            <Input type="text" id="name" name="name" placeholder="Guitar" />
+            <Input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Guitar"
+              defaultValue={filter.name || ""}
+            />
           </div>
           <div className="mb-4" key="condition">
             <Label htmlFor="condition">Condition</Label>
-            <Select required name="condition" defaultValue="all">
+            <Select
+              required
+              name="condition"
+              defaultValue={filter.condition || "all"}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="" />
               </SelectTrigger>
@@ -75,7 +85,11 @@ const Filter = () => {
           </div>
           <div className="mb-4">
             <Label htmlFor="categories">Categories</Label>
-            <Categories name="category" includeAll />
+            <Categories
+              name="category"
+              includeAll
+              defaultValue={filter.category || "0"}
+            />
           </div>
           <div>
             <Label htmlFor="price">Price($)</Label>
@@ -86,6 +100,7 @@ const Filter = () => {
                 name="price_from"
                 placeholder="Min"
                 className=""
+                defaultValue={filter.price_from || ""}
               />
               <span className="mx-3 text-lg font-extrabold">-</span>
               <Input
@@ -94,6 +109,7 @@ const Filter = () => {
                 name="price_to"
                 placeholder="Max"
                 className=""
+                defaultValue={filter.price_to || ""}
               />
             </div>
           </div>
