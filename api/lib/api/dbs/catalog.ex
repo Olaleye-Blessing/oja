@@ -3,8 +3,9 @@ defmodule Api.Dbs.Catalog do
   @moduledoc false
 
   alias Api.Repo
-  alias Api.Dbs.Catalog.{Product, Category}
+  alias Api.Dbs.Catalog.{Product, Category, Watcher}
   alias Api.Dbs.Catalog.Query.Product, as: ProductQuery
+  alias Api.Dbs.Catalog.Query.Watcher, as: WatcherQuery
 
   @doc """
   Create a product
@@ -37,7 +38,12 @@ defmodule Api.Dbs.Catalog do
     search
     |> ProductQuery.filter()
     |> Repo.all()
+    |> Enum.map(&merge_product_and_watchers_count/1)
     |> Repo.preload([:category] ++ preloads)
+  end
+
+  defp merge_product_and_watchers_count(%{product: product, watchers_count: count}) do
+    Map.put(product, :watchers, count)
   end
 
   @doc """
@@ -56,8 +62,26 @@ defmodule Api.Dbs.Catalog do
       iex> Api.Dbs.Catalog.get_product(invalid_id)
       nil
   """
-  def get_product(id, preloaded_fields \\ [:category, :user]) do
+  def get_product(id, preloaded_fields \\ [:category, :user, :watchers]) do
     Product |> Repo.get(id) |> Repo.preload(preloaded_fields)
+  end
+
+  @doc """
+  Add a product to a user watched_products
+  """
+  def watch_product(user, product) do
+    %Watcher{user: user, product: product}
+    |> Watcher.changeset()
+    |> Repo.insert()
+  end
+
+  @doc """
+  Remove a product from a user watched_products
+  """
+  def unwatch_product(user_id, product_id) do
+    user_id
+    |> WatcherQuery.base(product_id)
+    |> Repo.delete_all()
   end
 
   @doc """

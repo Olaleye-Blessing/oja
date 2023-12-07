@@ -16,6 +16,8 @@ defmodule Api.Dbs.Accounts.User do
     has_many(:products, Api.Dbs.Catalog.Product)
     has_many(:purchases, Api.Dbs.Cart.Purchase)
 
+    many_to_many(:watched_products, Api.Dbs.Catalog.Product, join_through: "watchers")
+
     timestamps()
   end
 
