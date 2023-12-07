@@ -11,9 +11,10 @@ export interface IProduct {
   image: string;
   created_at: string;
   updated_at: string;
+  watchers: number;
 }
 
-export interface IFullProduct extends IProduct {
+export interface IFullProduct extends Omit<IProduct, "watchers"> {
   user: UserType;
   category: {
     id: number;
@@ -21,4 +22,5 @@ export interface IFullProduct extends IProduct {
     inserted_at: string;
     updated_at: string;
   };
+  watchers: UserType[];
 }

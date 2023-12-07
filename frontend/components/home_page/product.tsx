@@ -45,6 +45,9 @@ const Product = ({ product }: { product: IProduct }) => {
               >
                 {product.condition}
               </p>
+              <p className="text-primary font-semibold">
+                {product.watchers} watching
+              </p>
               <p>
                 <span
                   className={`font-semibold ${
