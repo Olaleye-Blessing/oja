@@ -5,7 +5,11 @@ defmodule Api.Dbs.Catalog.Query.Product do
 
   import Ecto.Query
 
-  alias Api.Dbs.Catalog.Product
+  alias Api.Dbs.Catalog.{Product, Watcher}
+
+  def base_query() do
+    from(p in Product)
+  end
 
   def base(), do: from(p in Product)
 
@@ -15,6 +19,16 @@ defmodule Api.Dbs.Catalog.Query.Product do
     |> filter_field(:condition, get_field_value(params, :condition))
     |> filter_field(:category, get_field_value(params, :category))
     |> filter_field(:price, get_field_value(params, :price))
+    |> set_watchers_count()
+  end
+
+  def set_watchers_count(query) do
+    from(p in query,
+      left_join: w in Watcher,
+      on: p.id == w.product_id,
+      group_by: p.id,
+      select: %{product: p, watchers_count: count(w.id)}
+    )
   end
 
   defp get_field_value(params, field) do

@@ -20,6 +20,8 @@ defmodule Api.Dbs.Catalog.Product do
     belongs_to(:category, Api.Dbs.Catalog.Category)
     belongs_to(:user, Api.Dbs.Accounts.User)
 
+    many_to_many(:watchers, Api.Dbs.Accounts.User, join_through: "watchers")
+
     timestamps()
   end
 

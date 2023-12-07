@@ -33,6 +33,8 @@ defmodule Api.Plugs.Authentication do
   If a user is not authenticated, a JSON response with an unauthorized status code (401) will be returned, prompting the user to log in again.
   """
   @spec authenticated(Plug.Conn.t(), any()) :: Plug.Conn.t()
+  # arrangement of these matters a lot especially for sub path
+  def authenticated(conn, %{watchlists: _}), do: protect_auth_path(conn, ["POST", "DELETE"])
   def authenticated(conn, %{products: _}), do: protect_auth_path(conn, @common_protected_paths)
   def authenticated(conn, %{purchases: _}), do: protect_auth_path(conn, ["POST"])
   def authenticated(conn, _opts), do: conn

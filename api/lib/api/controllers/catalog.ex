@@ -50,13 +50,32 @@ defmodule Api.Controllers.Catalog do
 
         if product do
           category = Utils.schema_to_map(product.category, [:products])
-          user = Utils.schema_to_map(product.user, [:products, :password, :purchases])
-          formatted_product = Utils.schema_to_map(product, [:category, :user])
+
+          user =
+            Utils.schema_to_map(product.user, [
+              :products,
+              :password,
+              :purchases,
+              :watched_products
+            ])
+
+          watchers =
+            product.watchers
+            |> Enum.map(
+              &Utils.schema_to_map(&1, [
+                :products,
+                :password,
+                :purchases,
+                :watched_products
+              ])
+            )
+
+          formatted_product = Utils.schema_to_map(product, [:category, :user, :watchers])
 
           Router.json_resp(
             :ok,
             conn,
-            Map.merge(formatted_product, %{user: user, category: category}),
+            Map.merge(formatted_product, %{user: user, category: category, watchers: watchers}),
             200
           )
         else
@@ -88,9 +107,9 @@ defmodule Api.Controllers.Catalog do
         {:ok, product} ->
           formatted_product =
             product
-            |> Utils.schema_to_map([:user_id, :user, :category, :category_id])
+            |> Utils.schema_to_map([:user_id, :user, :category, :category_id, :watchers])
             |> Map.merge(%{
-              user: Utils.schema_to_map(user, [:products, :purchases]),
+              user: Utils.schema_to_map(user, [:products, :purchases, :watched_products]),
               category: Utils.schema_to_map(product.category, [:products])
             })
 
@@ -116,5 +135,34 @@ defmodule Api.Controllers.Catalog do
       |> Enum.map(&Utils.schema_to_map(&1, [:products])),
       200
     )
+  end
+
+  @doc """
+  Add product to watch list
+  """
+  def add_product_to_watchlist(
+        %{assigns: %{current_user: user}, params: %{"id" => product_id}} = conn
+      ) do
+    product = Catalog.get_product(product_id, [])
+
+    if product do
+      case Catalog.watch_product(user, product) do
+        {:ok, _result} ->
+          Router.json_resp(:ok, conn, "Successfully added!", 200)
+
+        {:error, changeset} ->
+          Router.json_resp(:error, conn, Utils.changeset_error_to_map(changeset), 400)
+      end
+    else
+      Router.json_resp(:error, conn, "This product no longer exists.", 200)
+    end
+  end
+
+  def remove_product_from_watchlist(
+        %{assigns: %{current_user: user}, params: %{"id" => product_id}} = conn
+      ) do
+    Catalog.unwatch_product(user.id, product_id)
+
+    Router.json_resp(:ok, conn, "Successfully unwatched product", 200)
   end
 end

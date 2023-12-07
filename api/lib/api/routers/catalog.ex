@@ -9,7 +9,7 @@ defmodule Api.Routers.Catalog do
 
   alias Api.Controllers.Catalog, as: CatalogController
 
-  plug(:authenticated, %{products: true})
+  plug(:authenticated, %{products: true, watchlists: true})
 
   plug(:match)
   plug(:dispatch)
@@ -26,7 +26,19 @@ defmodule Api.Routers.Catalog do
     CatalogController.get_product(conn)
   end
 
+  post "/:id/watchlist" do
+    CatalogController.add_product_to_watchlist(conn)
+  end
+
+  delete "/:id/watchlist" do
+    CatalogController.remove_product_from_watchlist(conn)
+  end
+
   post "/" do
     CatalogController.create_product(conn)
+  end
+
+  match _ do
+    send_resp(conn, 404, "Resource not found")
   end
 end
