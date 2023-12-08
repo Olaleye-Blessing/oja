@@ -3,19 +3,19 @@
 import { FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Button } from "../ui/button";
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import "./index.css";
 import { useFilterParams } from "./hooks/useFilterParams";
-import Categories from "../categories";
+import Categories from "@/components/categories";
 
 const Filter = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const Filter = () => {
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    router.push(`/${filterParams(new FormData(e.currentTarget))}`);
+    router.push(`/products/${filterParams(new FormData(e.currentTarget))}`);
   };
 
   const toggleFilter = () => {

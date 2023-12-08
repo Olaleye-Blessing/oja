@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { IProduct } from "@/interfaces/product";
 import { useAuthStore } from "@/store/useAuth";
-import { useCartStore } from "../navbar/cart/store";
+import { useCartStore } from "@/components/navbar/cart/store";
 
 const Product = ({ product }: { product: IProduct }) => {
   const user = useAuthStore((state) => state.user);
