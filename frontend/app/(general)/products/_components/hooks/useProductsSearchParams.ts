@@ -1,6 +1,6 @@
 import { useSearchParams } from "next/navigation";
 
-export const useFilterParams = () => {
+export const useProductsSearchParams = () => {
   const search = useSearchParams();
 
   const filter = {

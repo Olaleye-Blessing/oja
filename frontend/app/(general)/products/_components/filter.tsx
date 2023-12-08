@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import "./index.css";
-import { useFilterParams } from "./hooks/useFilterParams";
+import { useProductsSearchParams } from "./hooks/useProductsSearchParams";
 import Categories from "@/components/categories";
 
 const Filter = () => {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  const { filterParams, filter } = useFilterParams();
+  const { filterParams, filter } = useProductsSearchParams();
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
