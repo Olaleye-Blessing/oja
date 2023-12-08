@@ -6,10 +6,10 @@ import { useOjaQuery } from "@/hooks/useOjaQuery";
 import { API_URL } from "@/utils/constant";
 import Loading from "@/app/(general)/loading";
 import Product from "./product";
-import { useFilterParams } from "./hooks/useFilterParams";
+import { useProductsSearchParams } from "./hooks/useProductsSearchParams";
 
 const Products = () => {
-  const { filter } = useFilterParams();
+  const { filter } = useProductsSearchParams();
   const {
     data: products,
     isFetching,
