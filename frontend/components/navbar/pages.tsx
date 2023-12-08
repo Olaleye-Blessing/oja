@@ -9,6 +9,10 @@ import Link from "next/link";
 
 const pages = [
   {
+    name: "Products",
+    href: "/products",
+  },
+  {
     name: "List a product",
     href: "/products/new",
   },
