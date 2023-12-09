@@ -45,7 +45,7 @@ const Navbar = () => {
         <Pages />
         <Search />
         <Cart />
-        {user ? <Profile /> : <AuthPages />}
+        {user ? <Profile user={user} /> : <AuthPages />}
       </div>
 
       <button onClick={() => toggleMenu()} className="md:hidden">
