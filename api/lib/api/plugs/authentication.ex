@@ -56,17 +56,8 @@ defmodule Api.Plugs.Authentication do
     end
   end
 
-  # TODO: We might later move to cookies based authentication
-  defp get_token(%{cookies: %{"access_token" => access_token}} = _conn) do
-    {:ok, access_token}
-  end
-
-  defp get_token(conn) do
-    case get_req_header(conn, "authorization") do
-      ["Bearer " <> token] -> {:ok, token}
-      _ -> {:error, "unauthenticated"}
-    end
-  end
+  defp get_token(%{cookies: %{"access_token" => access_token}} = _conn), do: {:ok, access_token}
+  defp get_token(_conn), do: {:error, "unauthenticated"}
 
   defp verify_token(token) do
     case Api.Token.verify_and_validate(token) do

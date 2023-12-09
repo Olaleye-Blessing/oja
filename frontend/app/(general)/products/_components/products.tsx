@@ -7,9 +7,11 @@ import { API_URL } from "@/utils/constant";
 import Loading from "@/app/(general)/loading";
 import Product from "./product";
 import { useProductsSearchParams } from "./hooks/useProductsSearchParams";
+import { useOjaDB } from "@/hooks/useOjaDB";
 
 const Products = () => {
   const { filter } = useProductsSearchParams();
+  const { ojaInstance } = useOjaDB();
   const {
     data: products,
     isFetching,
@@ -18,7 +20,7 @@ const Products = () => {
     url: `${API_URL}/products`,
     options: {
       queryKey: ["products"],
-      queryFn: () => getProducts(filter),
+      queryFn: () => getProducts(ojaInstance, filter),
     },
   });
 

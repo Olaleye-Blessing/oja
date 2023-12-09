@@ -16,9 +16,9 @@ export function useOjaQuery<TData = any, TError = any>({
     queryFn:
       // this is useful for testing
       options.queryFn ??
-      (async ({ signal }) => {
+      (async () => {
         try {
-          let { data } = await ojaInstance.get(url, { signal });
+          let { data } = await ojaInstance.get(url);
 
           return data;
         } catch (error) {

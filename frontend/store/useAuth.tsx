@@ -17,11 +17,10 @@ export interface TokenType {
 
 interface State {
   user: UserType | null;
-  token: TokenType | null;
 }
 
 interface Actions {
-  login: (user: UserType, token: TokenType) => void;
+  login: (user: UserType) => void;
 }
 
 type Store = State & Actions;
@@ -33,8 +32,8 @@ export const useAuthStore = create<Store>()(
         (set) => ({
           user: null,
           token: null,
-          login: (user, token) => {
-            set(() => ({ user, token }));
+          login: (user) => {
+            set(() => ({ user }));
           },
         }),
         { name: "auth" },
