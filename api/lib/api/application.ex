@@ -8,6 +8,7 @@ defmodule Api.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Api.CurrencyConverter.System,
       {Plug.Cowboy,
        scheme: :http, plug: Api.Router, options: [port: Application.fetch_env!(:api, :port)]},
       Api.Repo

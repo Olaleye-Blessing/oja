@@ -29,7 +29,8 @@ defmodule Api.MixProject do
       {:ecto_sql, "~> 3.11"},
       {:cors_plug, "~> 3.0"},
       {:pbkdf2_elixir, "~> 2.2"},
-      {:joken, "~> 2.5"}
+      {:joken, "~> 2.5"},
+      {:req, "~> 0.4.0"}
     ]
   end
 
