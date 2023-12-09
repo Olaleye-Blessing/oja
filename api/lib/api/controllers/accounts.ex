@@ -11,7 +11,7 @@ defmodule Api.Controllers.Accounts do
     path: "/",
     same_site: "none",
     http_only: Application.get_env(:api, :env) == :prod,
-    secure: Application.get_env(:api, :env) == :prod
+    secure: true
   ]
 
   @doc """
