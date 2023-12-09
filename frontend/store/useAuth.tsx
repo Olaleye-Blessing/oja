@@ -21,6 +21,7 @@ interface State {
 
 interface Actions {
   login: (user: UserType) => void;
+  logout: () => void;
 }
 
 type Store = State & Actions;
@@ -34,6 +35,9 @@ export const useAuthStore = create<Store>()(
           token: null,
           login: (user) => {
             set(() => ({ user }));
+          },
+          logout: () => {
+            set(() => ({ user: null }));
           },
         }),
         { name: "auth" },
