@@ -55,6 +55,10 @@ defmodule Api.Router do
     conn |> json_resp(body, status)
   end
 
+  defp json_resp(conn, _body, 204) do
+    send_resp(conn, 204, "")
+  end
+
   defp json_resp(conn, body, status) do
     conn
     |> put_resp_header("content-type", "application/json")
@@ -70,6 +74,18 @@ defmodule Api.Router do
     Enum.reduce(cookies, conn, fn {name, value, opts}, conn ->
       conn
       |> Plug.Conn.put_resp_cookie(name, value, opts)
+    end)
+  end
+
+  @doc """
+  Delete cookies from the response.
+  """
+  @spec delete_cookies(Plug.Conn.t(), [{String.t(), Plug.Conn.CookieOpts.t()}]) ::
+          Plug.Conn.t()
+  def delete_cookies(conn, cookies) do
+    Enum.reduce(cookies, conn, fn {name, opts}, conn ->
+      conn
+      |> Plug.Conn.delete_resp_cookie(name, opts)
     end)
   end
 

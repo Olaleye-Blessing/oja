@@ -43,11 +43,26 @@ defmodule Api.Dbs.Accounts do
   end
 
   @doc """
-  Get the a user refresh token
+  Get a user refresh token
   """
   @spec get_user_refresh_token(User.t()) :: UserToken.t() | nil
   def get_user_refresh_token(user) do
     Repo.get_by(UserToken, user_id: user.id, context: "refresh_token")
+  end
+
+  @doc """
+  Delete a user refresh token
+  """
+  @spec delete_user_refresh_token(User.t()) ::
+          {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  def delete_user_refresh_token(user) do
+    user = user |> get_user_refresh_token()
+
+    if user do
+      Repo.delete(user)
+    else
+      {:error, nil}
+    end
   end
 
   @doc """
