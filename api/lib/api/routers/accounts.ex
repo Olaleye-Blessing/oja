@@ -5,8 +5,11 @@ defmodule Api.Routers.Accounts do
   """
   use Plug.Router
 
+  import(Api.Plugs.Authentication)
+
   alias Api.Controllers.Accounts, as: AccountsController
 
+  plug(:authenticated, %{accounts: true})
   plug(:match)
   plug(:dispatch)
 
@@ -14,7 +17,11 @@ defmodule Api.Routers.Accounts do
     AccountsController.signup(conn)
   end
 
-  post "login" do
+  post "/login" do
     AccountsController.login(conn)
+  end
+
+  delete "/logout" do
+    AccountsController.logout(conn)
   end
 end

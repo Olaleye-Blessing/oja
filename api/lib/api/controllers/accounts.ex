@@ -68,6 +68,32 @@ defmodule Api.Controllers.Accounts do
     end
   end
 
+  @doc """
+  Delete all auth cookies associated with a user
+  """
+  @spec logout(Plug.Conn.t()) :: Plug.Conn.t()
+  def logout(%{assigns: %{current_user: user}} = conn) do
+    # TODO: The errors here might not be necessary. Make research on what should be done instead
+    case Accounts.delete_user_refresh_token(user) do
+      {:ok, _} ->
+        Router.json_resp(
+          :ok,
+          Router.delete_cookies(conn, [
+            {"refresh_token", @cookie_opts},
+            {"access_token", @cookie_opts}
+          ]),
+          "",
+          204
+        )
+
+      {:error, nil} ->
+        Router.json_resp(:error, conn, "You were never logged in.", 401)
+
+      _ ->
+        Router.json_resp(:error, conn, "Unknown error", 401)
+    end
+  end
+
   defp validate_login_params(%{email: nil, password: nil}),
     do: {:error, "Please provide email and password"}
 
