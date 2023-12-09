@@ -38,10 +38,10 @@ const Login = () => {
       );
 
       toast.success("Logged in successfully", { id: "login" });
-      login(data.user, data.tokens);
+      login(data.user);
 
       const redirectUrl = decodeURIComponent(
-        searchParams?.get("redirect") || "/",
+        searchParams?.get("redirect") || "/products",
       );
 
       router.replace(redirectUrl);

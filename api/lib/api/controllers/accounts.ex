@@ -9,6 +9,7 @@ defmodule Api.Controllers.Accounts do
 
   @cookie_opts [
     path: "/",
+    same_site: "none",
     http_only: Application.get_env(:api, :env) == :prod,
     secure: Application.get_env(:api, :env) == :prod
   ]
@@ -99,16 +100,11 @@ defmodule Api.Controllers.Accounts do
       :ok,
       conn
       |> Router.add_cookies([
+        # TODO: Update the path of this refresh token: https://stackoverflow.com/a/61526919
         {"refresh_token", refresh_token, [max_age: 3600 * 24 * 30] ++ @cookie_opts},
         {"access_token", access_token, [max_age: Api.Token.expiry()] ++ @cookie_opts}
       ]),
-      %{
-        user: Utils.schema_to_map(user, [:password, :products, :purchases, :watched_products]),
-        tokens: %{
-          access_token: access_token,
-          refresh_token: refresh_token
-        }
-      },
+      %{user: Utils.schema_to_map(user, [:password, :products, :purchases, :watched_products])},
       200
     )
   end

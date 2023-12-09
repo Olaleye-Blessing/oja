@@ -8,6 +8,7 @@ import Filter from "./_components/filter";
 import { ProductsFilter } from "./_components/types";
 import { getProducts } from "./_components/utils";
 import Products from "./_components/products";
+import { useOjaDB } from "@/hooks/useOjaDB";
 
 // TODO: Improve metadata
 export const metadata: Metadata = {
@@ -21,10 +22,11 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const queryClient = new QueryClient();
+  const { ojaInstance } = useOjaDB();
 
   await queryClient.prefetchQuery({
     queryKey: ["products"],
-    queryFn: () => getProducts(searchParams),
+    queryFn: () => getProducts(ojaInstance, searchParams),
   });
 
   return (
