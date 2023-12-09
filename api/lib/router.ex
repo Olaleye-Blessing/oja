@@ -11,7 +11,7 @@ defmodule Api.Router do
 
   import Api.Plugs.Authentication
 
-  alias Api.Routers.{Accounts, Catalog, Cart}
+  alias Api.Routers.{Accounts, Catalog, Cart, CurrencyConverter}
 
   plug(CORSPlug, origin: ["http://localhost:3000"])
   # see incoming requests in the shell while testing
@@ -38,6 +38,8 @@ defmodule Api.Router do
   forward("/api/products", to: Catalog)
 
   forward("/api/carts", to: Cart)
+
+  forward("/api/currencies", to: CurrencyConverter)
 
   match _ do
     send_resp(conn, 404, "Resource not found")
