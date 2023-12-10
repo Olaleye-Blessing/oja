@@ -19,7 +19,10 @@ defmodule Api.Seeds.Watchers do
   end
 
   def seed() do
-    [user_1, user_2, user_3] = users()
+    users = Repo.all(User)
+    user_1 = Enum.at(users, 0)
+    user_2 = Enum.at(users, 1)
+    user_3 = Enum.at(users, 2)
     [product_1 | [product_2 | [product_3 | _other_products]]] = products()
 
     Catalog.watch_product(user_1, product_1)
