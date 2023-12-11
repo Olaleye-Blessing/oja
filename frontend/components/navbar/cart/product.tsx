@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { IProduct } from "@/interfaces/product";
+import { IFullProduct, IProduct } from "@/interfaces/product";
 import AddToCartInput from "@/components/navbar/cart/input";
 import { ICartStore } from "./store";
 
 interface ProductProps {
-  product: IProduct;
+  product: IFullProduct | IProduct;
   quantity: number;
   addProductToCart: ICartStore["addProduct"];
   removeProduct: ICartStore["removeProduct"];
