@@ -1,7 +1,7 @@
 import { InputProps } from "@/components/ui/input";
 import { IFullProduct } from "@/interfaces/product";
 
-interface Field extends Omit<InputProps, "name"> {
+export interface Field extends Omit<InputProps, "name"> {
   label: string;
   name: keyof Omit<IFullProduct, "id" | "created_at" | "updated_at">;
 }
@@ -56,9 +56,8 @@ export const fields: Field[] = [
   {
     label: "Image",
     name: "image",
-    // TODO: change to file
-    type: "text",
-    placeholder: "Url string",
-    // accept: "image/*",
+    type: "file",
+    accept: "image/*",
+    multiple: true,
   },
 ];

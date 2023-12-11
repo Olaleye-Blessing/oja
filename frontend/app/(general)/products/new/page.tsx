@@ -15,9 +15,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useProductForm } from "./_utils/hook";
+import ProductImage from "./_components/product-image";
 
 const Page = () => {
-  const { submitting, handleCreateProduct } = useProductForm();
+  const {
+    submitting,
+    images,
+    handleImageChange,
+    handleRemoveImage,
+    handleCreateProduct,
+  } = useProductForm();
 
   return (
     <Protected>
@@ -64,6 +71,19 @@ const Page = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                );
+              }
+
+              if (field.name === "image") {
+                return (
+                  <ProductImage
+                    field={field}
+                    label={label}
+                    key="image"
+                    images={images}
+                    handleImageChange={handleImageChange}
+                    handleRemoveImage={handleRemoveImage}
+                  />
                 );
               }
 
