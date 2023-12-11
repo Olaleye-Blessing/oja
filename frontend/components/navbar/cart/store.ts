@@ -1,22 +1,22 @@
-import { IProduct } from "@/interfaces/product";
+import { IFullProduct, IProduct } from "@/interfaces/product";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 interface State {
   products: {
-    product: IProduct;
+    product: IProduct | IFullProduct;
     quantity: number;
   }[];
 }
 
 interface Actions {
   addProduct: (props: {
-    product: IProduct;
+    product: IProduct | IFullProduct;
     quantity: number;
     replace?: boolean;
   }) => void;
-  removeProduct: (product: IProduct) => void;
+  removeProduct: (product: IProduct | IFullProduct) => void;
   clearCart: () => void;
 }
 
