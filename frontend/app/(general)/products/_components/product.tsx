@@ -18,10 +18,10 @@ const Product = ({ product }: { product: IProduct }) => {
         href={`/products/${product.id}`}
         className="h-full flex flex-col rounded-md cardboard"
       >
-        <figure className="bg-blue-500 flex items-center justify-center overflow-hidden mb-3 rounded-md rounded-b-none">
+        <figure className="flex items-center justify-center overflow-hidden mb-3 rounded-md rounded-b-none">
           <Image
             className="w-full h-[20rem] object-cover rounded-md"
-            src={product.image}
+            src={product.images[0]}
             alt={product.name}
             width={200}
             height={200}

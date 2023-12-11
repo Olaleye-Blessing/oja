@@ -63,7 +63,7 @@ const Product = ({ product }: { product: IFullProduct }) => {
         <figure className="flex items-center justify-center overflow-hidden mb-3 rounded-md cardboard p-8 sm:h-full">
           <Image
             className="w-full object-contain rounded-md overflow-hidden"
-            src={product.image}
+            src={product.images[0]}
             alt={product.name}
             width={200}
             height={200}
