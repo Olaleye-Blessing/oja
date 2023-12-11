@@ -8,10 +8,11 @@ export interface IProduct {
   stock_quantity: number;
   category_id: number;
   condition: string;
-  image: string;
+  image?: string;
   created_at: string;
   updated_at: string;
   watchers: number;
+  images: string[];
 }
 
 export interface IFullProduct extends Omit<IProduct, "watchers"> {
