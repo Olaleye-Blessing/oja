@@ -16,14 +16,14 @@ const Product = ({
   addProductToCart,
   removeProduct,
 }: ProductProps) => {
-  const { name, image, price, stock_quantity } = product;
+  const { name, images, price, stock_quantity } = product;
 
   return (
     <li className="flex py-3 first:pt-1 border-b">
       <div className="relative mr-3">
         <figure className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border cardboard">
           <Image
-            src={image}
+            src={images[0]}
             alt={name}
             width={64}
             height={64}

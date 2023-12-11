@@ -3,7 +3,7 @@ import { IFullProduct } from "@/interfaces/product";
 
 export interface Field extends Omit<InputProps, "name"> {
   label: string;
-  name: keyof Omit<IFullProduct, "id" | "created_at" | "updated_at">;
+  name: keyof Omit<IFullProduct, "id" | "created_at" | "updated_at"> | "image";
 }
 
 export const fields: Field[] = [
