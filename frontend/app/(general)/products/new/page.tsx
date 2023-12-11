@@ -1,16 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
 import Protected from "@/components/protected";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { IProduct } from "@/interfaces/product";
-import { useOjaDB } from "@/hooks/useOjaDB";
-import { API_URL } from "@/utils/constant";
-import { getError } from "@/utils/get-error";
 import { fields } from "./_utils/fields";
 import Categories from "@/components/categories";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,52 +14,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useProductForm } from "./_utils/hook";
 
 const Page = () => {
-  const { ojaInstance } = useOjaDB();
-  const { mutateAsync } = useMutation({
-    mutationFn: async (product: IProduct) => {
-      const { data } = await ojaInstance.post(`${API_URL}/products`, product);
-
-      return data;
-    },
-  });
-  const [submitting, setSubmitting] = useState(false);
-
-  const createProduct = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (submitting) return;
-
-    setSubmitting(true);
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const product = Object.fromEntries(
-      formData.entries(),
-    ) as unknown as IProduct;
-
-    toast.loading("Creating product...", { id: "create-product" });
-
-    try {
-      await mutateAsync(product);
-
-      toast.success("Product created successfully", { id: "create-product" });
-
-      form.reset();
-    } catch (error) {
-      const messages = getError(error) as any;
-      const message = Object.keys(messages)
-        .map((key) => {
-          return `${key}: ${messages[key].join(", ")}`;
-        })
-        .join("\n");
-
-      toast.error(message, { id: "create-product", duration: 10_000 });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const { submitting, handleCreateProduct } = useProductForm();
 
   return (
     <Protected>
@@ -76,8 +27,8 @@ const Page = () => {
         </header>
         <main>
           <form
-            onSubmit={createProduct}
-            className="cardboard w-full max-w-lg mx-auto rounded-md p-4"
+            onSubmit={handleCreateProduct}
+            className="cardboard w-full max-w-2xl mx-auto rounded-md p-4"
           >
             {fields.map(({ label, ...field }) => {
               if (field.name === "category")
