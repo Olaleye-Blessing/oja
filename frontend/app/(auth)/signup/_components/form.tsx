@@ -48,7 +48,7 @@ const Form = () => {
 
       toast.success("Sign up successfully");
 
-      login(result.user, result.tokens);
+      login(result.user);
 
       router.replace("/");
     } catch (error) {
