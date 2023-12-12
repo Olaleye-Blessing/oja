@@ -2,7 +2,6 @@
 
 import { IFullProduct } from "@/interfaces/product";
 import { Egg, Radius, Sailboat, Users } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import AddToCart from "./add-to-cart";
@@ -10,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { useOjaDB } from "@/hooks/useOjaDB";
 import { useAuthStore } from "@/store/useAuth";
+import Images from "./images";
 
 const Product = ({ product }: { product: IFullProduct }) => {
   const { user } = useAuthStore();
@@ -58,18 +58,8 @@ const Product = ({ product }: { product: IFullProduct }) => {
   };
 
   return (
-    <div className="sm:grid grid-cols-[2fr_2fr] gap-4 lg:grid-cols-[2fr_5fr] lg:gap-8">
-      <section className="">
-        <figure className="flex items-center justify-center overflow-hidden mb-3 rounded-md cardboard p-8 sm:h-full">
-          <Image
-            className="w-full object-contain rounded-md overflow-hidden"
-            src={product.images[0]}
-            alt={product.name}
-            width={200}
-            height={200}
-          />
-        </figure>
-      </section>
+    <div className="lg:grid lg:grid-cols-[8fr_5fr] lg:gap-8">
+      <Images images={product.images} />
       <section>
         <header className="mb-3">
           <h1 className="text-2xl">
