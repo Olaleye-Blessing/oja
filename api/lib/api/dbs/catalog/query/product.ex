@@ -19,6 +19,7 @@ defmodule Api.Dbs.Catalog.Query.Product do
     |> filter_field(:condition, get_field_value(params, :condition))
     |> filter_field(:category, get_field_value(params, :category))
     |> filter_field(:price, get_field_value(params, :price))
+    |> filter_field(:user, get_field_value(params, :user))
     |> set_watchers_count()
   end
 
@@ -75,5 +76,10 @@ defmodule Api.Dbs.Catalog.Query.Product do
       end
 
     from(query, where: ^price)
+  end
+
+  defp filter_field(query, :user, user_id) do
+    condition = dynamic([p], p.user_id == ^user_id)
+    from(query, where: ^condition)
   end
 end

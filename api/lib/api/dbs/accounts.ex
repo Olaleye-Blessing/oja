@@ -72,4 +72,12 @@ defmodule Api.Dbs.Accounts do
   def get(user_id) do
     Repo.get(User, user_id)
   end
+
+  @doc """
+  Get a user by id and preloads needed associated tables.
+  """
+  @spec get(String.t()) :: User.t() | nil
+  def get_full_detail(user_id, preloads) do
+    Repo.get(User, user_id) |> Repo.preload(preloads)
+  end
 end

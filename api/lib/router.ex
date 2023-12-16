@@ -11,7 +11,7 @@ defmodule Api.Router do
 
   import Api.Plugs.Authentication
 
-  alias Api.Routers.{Accounts, Catalog, Cart, CurrencyConverter}
+  alias Api.Routers.{Accounts, Catalog, Cart, CurrencyConverter, Profile}
 
   plug(CORSPlug, origin: ["http://localhost:3000"])
   # see incoming requests in the shell while testing
@@ -34,6 +34,8 @@ defmodule Api.Router do
   plug(:dispatch)
 
   forward("/api/auth", to: Accounts)
+
+  forward("/api/profiles", to: Profile)
 
   forward("/api/products", to: Catalog)
 
