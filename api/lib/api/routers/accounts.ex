@@ -21,6 +21,10 @@ defmodule Api.Routers.Accounts do
     AccountsController.login(conn)
   end
 
+  patch "/update-password" do
+    AccountsController.update_password(conn)
+  end
+
   delete "/logout" do
     AccountsController.logout(conn)
   end

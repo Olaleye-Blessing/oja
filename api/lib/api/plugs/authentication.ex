@@ -37,7 +37,7 @@ defmodule Api.Plugs.Authentication do
   def authenticated(conn, %{watchlists: _}), do: protect_auth_path(conn, ["POST", "DELETE"])
   def authenticated(conn, %{products: _}), do: protect_auth_path(conn, @common_protected_paths)
   def authenticated(conn, %{purchases: _}), do: protect_auth_path(conn, ["POST"])
-  def authenticated(conn, %{accounts: _}), do: protect_auth_path(conn, ["DELETE"])
+  def authenticated(conn, %{accounts: _}), do: protect_auth_path(conn, ["DELETE", "PATCH"])
   def authenticated(conn, _opts), do: conn
 
   defp protect_auth_path(conn, methods) do

@@ -35,6 +35,17 @@ defmodule Api.Dbs.Accounts.User do
     |> hash_password()
   end
 
+  @doc """
+  Changeset for changing a user password
+  """
+  @spec changeset(user :: __MODULE__.t(), params :: %{password: String.t()}) :: Ecto.Changeset.t()
+  def password_changeset(user, params) do
+    user
+    |> cast(params, [:password])
+    |> validate_password()
+    |> hash_password()
+  end
+
   defp validate_email(changeset) do
     changeset
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have @ sign and no spaces")

@@ -80,4 +80,10 @@ defmodule Api.Dbs.Accounts do
   def get_full_detail(user_id, preloads) do
     Repo.get(User, user_id) |> Repo.preload(preloads)
   end
+
+  def update_password(user, password) do
+    user
+    |> User.password_changeset(%{password: password})
+    |> Repo.update()
+  end
 end

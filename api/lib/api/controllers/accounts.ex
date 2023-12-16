@@ -94,6 +94,45 @@ defmodule Api.Controllers.Accounts do
     end
   end
 
+  @doc """
+  Update a user password
+  """
+  @spec update_password(Plug.Conn.t()) :: Plug.Conn.t()
+  def update_password(%{assigns: %{current_user: user}, body_params: params} = conn) do
+    with {:ok, new_password, current_password} <- get_password_update_params(params),
+         {:ok, _} <- validate_current_password(current_password, user),
+         {:ok, _result} <- Accounts.update_password(user, new_password) do
+      Router.json_resp(:ok, conn, "Password changed successfully!", 200)
+    else
+      {:error, changeset = %Ecto.Changeset{}} ->
+        Router.json_resp(:error, conn, Utils.changeset_error_to_map(changeset), 400)
+
+      {:error, error} ->
+        Router.json_resp(:error, conn, error, 400)
+    end
+  end
+
+  defp validate_current_password(password, user) do
+    if Pbkdf2.verify_pass(password, user.password) do
+      {:ok, ""}
+    else
+      {:error, %{current_password: "Current password is incorrect!"}}
+    end
+  end
+
+  defp get_password_update_params(params) do
+    cond do
+      Map.get(params, "current_password", nil) == nil ->
+        {:error, %{current_password: "Please provide the current password"}}
+
+      Map.get(params, "new_password", nil) == nil ->
+        {:error, %{new_password: "Please provide a new password"}}
+
+      true ->
+        {:ok, Map.get(params, "new_password"), Map.get(params, "current_password")}
+    end
+  end
+
   defp validate_login_params(%{email: nil, password: nil}),
     do: {:error, "Please provide email and password"}
 
