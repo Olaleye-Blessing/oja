@@ -1,4 +1,4 @@
-export interface PageProps {
+export interface PageProps<Search = {}> {
   params: { id: string };
-  searchParams: {};
+  searchParams: Search;
 }
