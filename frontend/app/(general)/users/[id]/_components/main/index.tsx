@@ -3,6 +3,7 @@ import TabHeader from "./tab-header";
 import Shop, { ShopProps } from "./shop";
 import About from "./about";
 import type { UserPageProps } from "../../page";
+import CurrentUserContents from "./current-user/contents";
 
 interface MainProps extends ShopProps, Pick<UserPageProps, "searchParams"> {}
 
@@ -15,6 +16,7 @@ const Main = ({ user, searchParams }: MainProps) => {
         {/* tabs contents */}
         <Shop user={user} />
         <About />
+        <CurrentUserContents />
       </Tabs>
     </main>
   );
