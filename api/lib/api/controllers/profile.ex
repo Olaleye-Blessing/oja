@@ -4,8 +4,30 @@ defmodule Api.Controllers.Profile do
   """
   alias Api.{Router, Utils}
   alias Api.Dbs.Accounts
+  alias Api.Dbs.Accounts.User
 
   @common_preloads [:products]
+
+  @doc """
+  Update user's profile info
+  """
+  @spec update(Plug.Conn.t()) :: Plug.Conn.t()
+  def update(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
+    accepted_fields = User.meta_data_fields()
+
+    body_params =
+      body_params
+      |> Enum.filter(fn {key, _v} -> String.to_atom(key) in accepted_fields end)
+      |> Enum.into(%{})
+
+    case Accounts.update_meta_data(user, body_params) do
+      {:ok, _result} ->
+        Router.json_resp(:ok, conn, %{}, 200)
+
+      {:error, changeset} ->
+        Router.json_resp(:error, conn, Utils.changeset_error_to_string(changeset), 400)
+    end
+  end
 
   @spec get_full_user_detail(Plug.Conn.t()) :: Plug.Conn.t()
   def get_full_user_detail(
