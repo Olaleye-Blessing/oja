@@ -86,4 +86,14 @@ defmodule Api.Dbs.Accounts do
     |> User.password_changeset(%{password: password})
     |> Repo.update()
   end
+
+  @doc """
+  Update user's metadata like website, bio, phone_number, e.t.c
+  """
+  @spec update_meta_data(User.t(), map()) :: any()
+  def update_meta_data(user, params \\ %{}) do
+    user
+    |> User.meta_data_changeset(params)
+    |> Repo.update()
+  end
 end

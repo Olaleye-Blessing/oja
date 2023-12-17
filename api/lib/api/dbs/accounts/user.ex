@@ -7,11 +7,28 @@ defmodule Api.Dbs.Accounts.User do
   @type t :: %__MODULE__{}
 
   @required_fields ~w(username email password)a
+  @optional_fields ~w(avatar_url bio website phone_number city state country tiktok twitter instagram)a
+
+  def meta_data_fields(), do: @optional_fields
 
   schema "users" do
     field(:username, :string)
     field(:email, :string)
     field(:password, :string, redact: true)
+    # Personal
+    field(:avatar_url, :string)
+    field(:bio, :string)
+    # contact
+    field(:website, :string)
+    field(:phone_number, :string)
+    # location
+    field(:city, :string)
+    field(:state, :string)
+    field(:country, :string)
+    # socials
+    field(:tiktok, :string)
+    field(:twitter, :string)
+    field(:instagram, :string)
 
     has_many(:products, Api.Dbs.Catalog.Product)
     has_many(:purchases, Api.Dbs.Cart.Purchase)
@@ -44,6 +61,15 @@ defmodule Api.Dbs.Accounts.User do
     |> cast(params, [:password])
     |> validate_password()
     |> hash_password()
+  end
+
+  @doc """
+  Changeset for updating non-security fields.
+  """
+  @spec changeset(user :: __MODULE__.t(), params :: map()) :: Ecto.Changeset.t()
+  def meta_data_changeset(user, params) do
+    user
+    |> cast(params, @optional_fields)
   end
 
   defp validate_email(changeset) do
