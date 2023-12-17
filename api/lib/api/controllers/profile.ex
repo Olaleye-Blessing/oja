@@ -21,8 +21,13 @@ defmodule Api.Controllers.Profile do
       |> Enum.into(%{})
 
     case Accounts.update_meta_data(user, body_params) do
-      {:ok, _result} ->
-        Router.json_resp(:ok, conn, %{}, 200)
+      {:ok, updated_user} ->
+        Router.json_resp(
+          :ok,
+          conn,
+          Utils.schema_to_map(updated_user, [:products, :purchases, :watched_products, :password]),
+          200
+        )
 
       {:error, changeset} ->
         Router.json_resp(:error, conn, Utils.changeset_error_to_string(changeset), 400)
