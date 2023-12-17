@@ -6,7 +6,13 @@ import { Eye, Settings } from "lucide-react";
 import TabTrigger from "../tab-trigger";
 import { useStore } from "@/store/useStore";
 
-const CurrentUserTabsHeader = () => {
+interface CurrentUserTabsHeaderProps {
+  updateTabUrl: (tab: string) => void;
+}
+
+const CurrentUserTabsHeader = ({
+  updateTabUrl,
+}: CurrentUserTabsHeaderProps) => {
   const user = useStore(useAuthStore, (state) => state.user);
   const params = useParams<{ id: string }>();
 
@@ -27,7 +33,7 @@ const CurrentUserTabsHeader = () => {
   return (
     <>
       {tabs.map((tab) => (
-        <TabTrigger key={tab.value} {...tab} />
+        <TabTrigger key={tab.value} {...tab} updateTabUrl={updateTabUrl} />
       ))}
     </>
   );

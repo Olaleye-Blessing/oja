@@ -5,13 +5,15 @@ interface TabTriggerProps {
   value: string;
   label?: string;
   Icon: LucideIcon;
+  updateTabUrl: (tab: string) => void;
 }
 
-const TabTrigger = ({ value, label, Icon }: TabTriggerProps) => {
+const TabTrigger = ({ value, label, Icon, updateTabUrl }: TabTriggerProps) => {
   return (
     <TabsTrigger
       value={value}
       className="data-[state=active]:text-primary capitalize"
+      onClick={() => updateTabUrl(value)}
     >
       <span className="mr-1">
         <Icon size={16} />
