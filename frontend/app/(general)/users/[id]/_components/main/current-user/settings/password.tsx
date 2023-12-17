@@ -47,7 +47,7 @@ const Password = () => {
         <div className="mb-4">
           <label htmlFor="current-password">Current Password</label>
           <InputPassword
-            {...register("current_password")}
+            {...(register("current_password"), { required: true })}
             id="current-password"
           />
         </div>
