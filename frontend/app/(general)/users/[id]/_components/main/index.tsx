@@ -15,7 +15,7 @@ const Main = ({ user, searchParams }: MainProps) => {
 
         {/* tabs contents */}
         <Shop user={user} />
-        <About />
+        <About user={user} />
         <CurrentUserContents />
       </Tabs>
     </main>

@@ -16,7 +16,7 @@ const Contact = () => {
           label="Phone number"
           name="phone_number"
           placeholder="+234 703 528 7586"
-          type="number"
+          type="tel"
         />
       </Form>
     </Container>
