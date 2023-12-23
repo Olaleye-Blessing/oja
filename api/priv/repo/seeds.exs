@@ -1,4 +1,3 @@
-alias Api.Seeds.{Products, Watchers}
+alias Api.Seeds.{Users, Categories, Products, Watchers}
 
-Products.seed()
-Watchers.seed()
+[Users, Categories, Products, Watchers] |> Enum.map(&(&1.seed()))

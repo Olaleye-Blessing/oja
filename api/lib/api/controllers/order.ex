@@ -1,18 +1,18 @@
-defmodule Api.Controllers.Cart do
+defmodule Api.Controllers.Order do
   @moduledoc false
 
   alias Api.Router
   alias Api.Utils
-  alias Api.Dbs.Cart.{ShippingAddress}
+  alias Api.Dbs.Order.{ShippingAddress}
   alias Api.Dbs.Catalog
-  alias Api.Dbs.Cart
+  alias Api.Dbs.Order
 
   # TODO: Rename the `purchases` *alias* to `orders` in the future
   @doc """
-  Creates a new purchase, i.e. a new order.
+  Creates a new order.
   """
-  @spec create_purchase(Plug.Conn.t()) :: Plug.Conn.t()
-  def create_purchase(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
+  @spec create(Plug.Conn.t()) :: Plug.Conn.t()
+  def create(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
     products =
       body_params["products"]
       |> Enum.map(fn product ->
@@ -20,31 +20,22 @@ defmodule Api.Controllers.Cart do
       end)
 
     with {:ok, total_price, new_products} <- get_total_price(products),
-         {:ok, shipping_address} <- get_shipping_address(body_params["shipping_address"]) do
-      purchase_info = %{
-        status: "pending",
-        user_id: user.id,
-        shipping_address: shipping_address,
-        products: new_products,
-        total_price: total_price
-      }
+         {:ok, shipping_address} <- get_shipping_address(body_params["shipping_address"]),
+         order_info <- order_info(user, shipping_address, new_products, total_price),
+         {:ok, _info} <- Order.create(order_info) do
+      # TODO: send a confirmation email in the future
 
-      case Cart.create(purchase_info) do
-        {:ok, _info} ->
-          IO.inspect("____ 🔥 Success _____")
-          # TODO: send a confirmation email in the future
-          Router.json_resp(
-            :ok,
-            conn,
-            "#{user.username}, Thank you for your order from Oja-nla. Once your package shipped we will send you a tracking number. You can check the status of your order by logging into your account.",
-            200
-          )
-
-        {:error, _changeset} ->
-          IO.inspect("____ 🔥 Error _____")
-          Router.json_resp(:error, conn, "Unknown error! Try again later", 400)
-      end
+      Router.json_resp(
+        :ok,
+        conn,
+        "#{user.username}, Thank you for your order from Oja-nla. Once your package shipped we will send you a tracking number. You can check the status of your order by logging into your account.",
+        200
+      )
     else
+      {:error, error = %Ecto.Changeset{}} ->
+        IO.inspect(error)
+        Router.json_resp(:error, conn, "Unknown error! Try again later", 400)
+
       # key can be :products or :shipping_address at the moment
       {:error, key, msg} ->
         Router.json_resp(:error, conn, %{key => msg}, 400)
@@ -112,5 +103,15 @@ defmodule Api.Controllers.Cart do
     else
       {:error, :shipping_address, Utils.changeset_error_to_map(changeset)}
     end
+  end
+
+  defp order_info(user, shipping_address, products, total_price) do
+    %{
+      status: "pending",
+      user_id: user.id,
+      shipping_address: shipping_address,
+      products: products,
+      total_price: total_price
+    }
   end
 end

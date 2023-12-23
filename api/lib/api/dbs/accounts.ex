@@ -72,4 +72,28 @@ defmodule Api.Dbs.Accounts do
   def get(user_id) do
     Repo.get(User, user_id)
   end
+
+  @doc """
+  Get a user by id and preloads needed associated tables.
+  """
+  @spec get(String.t()) :: User.t() | nil
+  def get_full_detail(user_id, preloads) do
+    Repo.get(User, user_id) |> Repo.preload(preloads)
+  end
+
+  def update_password(user, password) do
+    user
+    |> User.password_changeset(%{password: password})
+    |> Repo.update()
+  end
+
+  @doc """
+  Update user's metadata like website, bio, phone_number, e.t.c
+  """
+  @spec update_meta_data(User.t(), map()) :: any()
+  def update_meta_data(user, params \\ %{}) do
+    user
+    |> User.meta_data_changeset(params)
+    |> Repo.update()
+  end
 end

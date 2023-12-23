@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Cart.ShippingAddress do
+defmodule Api.Dbs.Order.ShippingAddress do
   use Ecto.Schema
 
   import Ecto.Changeset

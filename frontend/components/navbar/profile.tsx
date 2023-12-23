@@ -37,6 +37,8 @@ const Profile = ({ user }: ProfileProps) => {
       router.refresh();
     } catch (error) {
       toast.error(getError(error), { id: "logout" });
+    } finally {
+      toast.dismiss("logout");
     }
   };
 
@@ -48,7 +50,7 @@ const Profile = ({ user }: ProfileProps) => {
       <DropdownMenuContent className="mr-4 mt-1">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href={`/users/${user.id}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

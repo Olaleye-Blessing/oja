@@ -55,7 +55,7 @@ defmodule Api.Controllers.Catalog do
             Utils.schema_to_map(product.user, [
               :products,
               :password,
-              :purchases,
+              :orders,
               :watched_products
             ])
 
@@ -65,7 +65,7 @@ defmodule Api.Controllers.Catalog do
               &Utils.schema_to_map(&1, [
                 :products,
                 :password,
-                :purchases,
+                :orders,
                 :watched_products
               ])
             )
@@ -109,7 +109,7 @@ defmodule Api.Controllers.Catalog do
             product
             |> Utils.schema_to_map([:user_id, :user, :category, :category_id, :watchers])
             |> Map.merge(%{
-              user: Utils.schema_to_map(user, [:products, :purchases, :watched_products]),
+              user: Utils.schema_to_map(user, [:products, :orders, :watched_products]),
               category: Utils.schema_to_map(product.category, [:products])
             })
 
