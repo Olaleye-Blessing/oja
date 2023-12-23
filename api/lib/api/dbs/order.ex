@@ -34,7 +34,7 @@ defmodule Api.Dbs.Order do
         db_product_changeset
       )
     end)
-    |> Multi.insert(:purchase, Order.changeset(%Order{}, params))
+    |> Multi.insert(:order, Order.changeset(%Order{}, params))
     |> Repo.transaction()
   end
 end

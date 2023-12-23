@@ -9,7 +9,7 @@ defmodule Api.Dbs.Order.Order do
 
   @required_fields ~w(status user_id total_price)a
 
-  schema "purchases" do
+  schema "orders" do
     embeds_many(:products, Api.Dbs.Order.Product, on_replace: :delete)
     embeds_one(:shipping_address, Api.Dbs.Order.ShippingAddress, on_replace: :update)
 

@@ -169,7 +169,7 @@ defmodule Api.Controllers.Accounts do
         {"refresh_token", refresh_token, [max_age: 3600 * 24 * 30] ++ @cookie_opts},
         {"access_token", access_token, [max_age: Api.Token.expiry()] ++ @cookie_opts}
       ]),
-      %{user: Utils.schema_to_map(user, [:password, :products, :purchases, :watched_products])},
+      %{user: Utils.schema_to_map(user, [:password, :products, :orders, :watched_products])},
       200
     )
   end

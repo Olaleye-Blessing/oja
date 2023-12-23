@@ -10,7 +10,7 @@ defmodule Api.Routers.Order do
 
   alias Api.Controllers.Order
 
-  plug(:authenticated, %{purchases: true})
+  plug(:authenticated, %{orders: true})
 
   plug(:match)
   plug(:dispatch)

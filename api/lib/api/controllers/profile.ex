@@ -25,7 +25,7 @@ defmodule Api.Controllers.Profile do
         Router.json_resp(
           :ok,
           conn,
-          Utils.schema_to_map(updated_user, [:products, :purchases, :watched_products, :password]),
+          Utils.schema_to_map(updated_user, [:products, :orders, :watched_products, :password]),
           200
         )
 
@@ -42,7 +42,7 @@ defmodule Api.Controllers.Profile do
 
     preloads =
       if personal_account? do
-        [:watched_products, :purchases] ++ @common_preloads
+        [:watched_products, :orders] ++ @common_preloads
       else
         @common_preloads
       end
@@ -76,7 +76,7 @@ defmodule Api.Controllers.Profile do
       end
 
     user =
-      Utils.schema_to_map(user, [:products, :purchases, :watched_products])
+      Utils.schema_to_map(user, [:products, :orders, :watched_products])
       |> Map.put(:products, products)
 
     if personal_account? do
