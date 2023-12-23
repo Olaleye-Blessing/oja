@@ -1,21 +1,21 @@
-defmodule Api.Dbs.Cart do
+defmodule Api.Dbs.Order do
   @moduledoc false
 
   alias Ecto.Multi
   alias Api.Repo
-  alias Api.Dbs.Cart.Purchase
+  alias Api.Dbs.Order.Order
   alias Api.Dbs.Catalog
   alias Api.Dbs.Catalog.Product
 
   @doc """
-  Create a purchase(cart).
+  Create an order.
 
-  The products stock_quantity will be updated for each product in the cart.
+  The products stock_quantity will be updated for each product in the order.
 
   ## Examples
 
-        iex> Api.Dbs.Cart.create(%{products: [%{product_id: 1, quantity: 1}], shipping_address: %{}, user_id: 1, total_price: 100, status: "pending"})
-        {:ok, %Purchase{}}
+        iex> Api.Dbs.Order.create(%{products: [%{product_id: 1, quantity: 1}], shipping_address: %{}, user_id: 1, total_price: 100, status: "pending"})
+        {:ok, %Order{}}
   """
   def create(%{products: products} = params) do
     Enum.reduce(products, Multi.new(), fn product, multi ->
@@ -34,7 +34,7 @@ defmodule Api.Dbs.Cart do
         db_product_changeset
       )
     end)
-    |> Multi.insert(:purchase, Purchase.changeset(%Purchase{}, params))
+    |> Multi.insert(:purchase, Order.changeset(%Order{}, params))
     |> Repo.transaction()
   end
 end

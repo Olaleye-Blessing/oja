@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Cart.Product do
+defmodule Api.Dbs.Order.Product do
   @moduledoc false
   use Ecto.Schema
 

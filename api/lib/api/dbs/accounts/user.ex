@@ -31,7 +31,7 @@ defmodule Api.Dbs.Accounts.User do
     field(:instagram, :string)
 
     has_many(:products, Api.Dbs.Catalog.Product)
-    has_many(:purchases, Api.Dbs.Cart.Purchase)
+    has_many(:purchases, Api.Dbs.Order.Order)
 
     many_to_many(:watched_products, Api.Dbs.Catalog.Product, join_through: "watchers")
 

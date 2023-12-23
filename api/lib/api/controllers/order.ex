@@ -1,18 +1,18 @@
-defmodule Api.Controllers.Cart do
+defmodule Api.Controllers.Order do
   @moduledoc false
 
   alias Api.Router
   alias Api.Utils
-  alias Api.Dbs.Cart.{ShippingAddress}
+  alias Api.Dbs.Order.{ShippingAddress}
   alias Api.Dbs.Catalog
-  alias Api.Dbs.Cart
+  alias Api.Dbs.Order
 
   # TODO: Rename the `purchases` *alias* to `orders` in the future
   @doc """
-  Creates a new purchase, i.e. a new order.
+  Creates a new order.
   """
-  @spec create_purchase(Plug.Conn.t()) :: Plug.Conn.t()
-  def create_purchase(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
+  @spec create(Plug.Conn.t()) :: Plug.Conn.t()
+  def create(%{body_params: body_params, assigns: %{current_user: user}} = conn) do
     products =
       body_params["products"]
       |> Enum.map(fn product ->
@@ -21,8 +21,8 @@ defmodule Api.Controllers.Cart do
 
     with {:ok, total_price, new_products} <- get_total_price(products),
          {:ok, shipping_address} <- get_shipping_address(body_params["shipping_address"]),
-         purchase_info <- purchase_info(user, shipping_address, new_products, total_price),
-         {:ok, _info} <- Cart.create(purchase_info) do
+         order_info <- order_info(user, shipping_address, new_products, total_price),
+         {:ok, _info} <- Order.create(order_info) do
       # TODO: send a confirmation email in the future
 
       Router.json_resp(
@@ -105,7 +105,7 @@ defmodule Api.Controllers.Cart do
     end
   end
 
-  defp purchase_info(user, shipping_address, products, total_price) do
+  defp order_info(user, shipping_address, products, total_price) do
     %{
       status: "pending",
       user_id: user.id,

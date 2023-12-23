@@ -1,4 +1,4 @@
-defmodule Api.Dbs.Cart.Purchase do
+defmodule Api.Dbs.Order.Order do
   @moduledoc false
 
   use Ecto.Schema
@@ -10,8 +10,8 @@ defmodule Api.Dbs.Cart.Purchase do
   @required_fields ~w(status user_id total_price)a
 
   schema "purchases" do
-    embeds_many(:products, Api.Dbs.Cart.Product, on_replace: :delete)
-    embeds_one(:shipping_address, Api.Dbs.Cart.ShippingAddress, on_replace: :update)
+    embeds_many(:products, Api.Dbs.Order.Product, on_replace: :delete)
+    embeds_one(:shipping_address, Api.Dbs.Order.ShippingAddress, on_replace: :update)
 
     field(:status, :string)
     field(:total_price, :decimal)
